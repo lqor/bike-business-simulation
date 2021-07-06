@@ -128,7 +128,7 @@
         >
           <template v-slot:append>
             <v-text-field
-              v-model="amount.frames"
+              v-model.number="amount.frames"
               class="mt-0 pt-0"
               hide-details
               single-line

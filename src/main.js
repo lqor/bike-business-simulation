@@ -12,7 +12,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     round: 1,
-    nextStep: 0,
+    nextStep: 'purchasing',
     color: '#4E9455'
   }
 });

@@ -243,6 +243,18 @@ export default {
       this.progressElements.find(
         (element) => element.id === key
       ).value = newValue;
+
+      const nextElement = this.progressElements.find(
+        (element) => 
+          element.value !== 100 && 
+          element.requiredRound <= this.$store.state.round
+      );
+
+      if(nextElement) {
+        this.$store.state.nextStep = nextElement.id;
+      } else {
+        this.$store.state.nextStep = '';
+      }
     },
     toggleSecretDialog() {
       this.secretDialog = !this.secretDialog;
@@ -257,6 +269,7 @@ export default {
       this.progressElements.forEach((element) => {
         element.value = 5;
       });
+      this.$store.state.nextStep = 'purchasing';
     },
     newRoundRules() {
       console.log("New Round Rules");

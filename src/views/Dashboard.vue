@@ -17,7 +17,7 @@
 
     <!-- Circular Progress-Bars with Pop-Overs -->
     <v-row class="pa-10 text-center">
-      <v-col v-for="(element, i) in calculatedProgressElements" :key="element.id" >
+      <v-col v-for="element in calculatedProgressElements" :key="element.id" >
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-progress-circular
@@ -28,7 +28,7 @@
               :value="element.value"
               @click="$router.push(element.id)"
               style="cursor: pointer;"
-              :class="calculateClass(i)"
+              :class="calculateClass(element)"
               :color="teamColor"
               v-bind="attrs"
               v-on="on"
@@ -81,8 +81,13 @@ export default {
     showName(element) {
       return element.requiredRound <= this.$store.state.round;
     },
-    calculateClass(i) {
-      return this.$store.state.nextStep === i ? 'grounded-radiants' : '';
+    calculateClass(element) {
+      if(this.$store.state.nextStep === element.id && this.$store.state.nextStep !== 'none') {
+        console.log('calculateClass: ' + this.$store.state.nextStep);
+        return 'grounded-radiants';
+      } else {
+        return '';
+      }
     }
   },
   computed: {
