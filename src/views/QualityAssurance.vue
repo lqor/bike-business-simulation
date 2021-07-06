@@ -236,7 +236,12 @@ export default {
       this.$router.push({ path: "/sales" });
     },
     toPreviousStep() {
-       this.$router.push({ path: "/appDevAndMaintenance" });
+      if(this.$store.state.round >= 4) {
+        this.$router.push({ path: "/appDevAndMaintenance" });
+      } else {
+        this.$router.push({ path: "/bikeConstruction" });
+      }
+       
     }
   },
   props: {

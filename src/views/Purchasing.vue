@@ -318,6 +318,6 @@ export default {
       }
     },
   },
-  props: {progressElements: Array},
+  props: {},
 };
 </script>

@@ -266,7 +266,6 @@ export default {
     }
   },
   props: {
-    progressElement: Array,
   },
 };
 </script>

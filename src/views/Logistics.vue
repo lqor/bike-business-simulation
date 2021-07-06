@@ -179,8 +179,6 @@ export default {
        this.$router.push({ path: "/purchasing" });
     }
   },
-  props: {
-    progressElements: Array,
-  },
+  props: {},
 };
 </script>

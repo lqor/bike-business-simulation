@@ -266,14 +266,14 @@ export default {
       }
     },
     toNextStep() {
-      this.$router.push({ path: "/batteryPreparation" });
+      if(this.$store.state.round >= 3) {
+        this.$router.push({ path: "/batteryPreparation" });
+      }       
     },
     toPreviousStep() {
        this.$router.push({ path: "/sensorsPreparation" });
     }
   },
-  props: {
-    progressElement: Array,
-  },
+  props: {},
 };
 </script>

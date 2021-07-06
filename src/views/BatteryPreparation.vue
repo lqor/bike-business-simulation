@@ -269,9 +269,12 @@ export default {
       this.$router.push({ path: "/bikeConstruction" });
     },
     toPreviousStep() {
-       this.$router.push({ path: "/enginePreparation" });
+      if(this.$store.state.round === 2) {
+        this.$router.push({ path: "/sensorsPreparation" });      
+      } else {
+        this.$router.push({ path: "/enginePreparation" });
+      }
     }
   },
-  props: {progressElement: Array},
 };
 </script>

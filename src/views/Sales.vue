@@ -218,11 +218,14 @@ export default {
       }
     },
     toPreviousStep() {
-       this.$router.push({ path: "/qualityAssurance" });
+      if(this.$store.state.round === 1) {
+        this.$router.push({ path: "/bikeConstruction" });
+      } else {
+        this.$router.push({ path: "/qualityAssurance" }); 
+      }
+       
     }
   },
-  props: {
-    progressElement: Array,
-  },
+  props: {},
 };
 </script>
