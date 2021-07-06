@@ -73,7 +73,8 @@ export default {
           "The growth of popularity only increases slightly, up to 50.000 bikes. The teams have the possibility to establish their offerings and further increase their profit.",
       },
       dialog: true,
-      teamColor: this.$store.state.color
+      teamColor: this.$store.state.color,
+      round: this.$store.state.round
     };
   },
   computed: {
@@ -115,7 +116,6 @@ export default {
     },
   },
   props: {
-    round: Number,
     generalRules: Boolean,
     headerImage: Boolean,
   },

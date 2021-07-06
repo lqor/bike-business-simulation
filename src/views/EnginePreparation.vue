@@ -218,6 +218,8 @@ export default {
   name: "engine-preparation",
   data() {
     return {
+      teamColor: this.$store.state.color,
+      round: this.$store.state.round,
       confirmChangesDialog: false,
       selectedLine: "",
       numOfLines: 1,
@@ -238,7 +240,6 @@ export default {
           value: ["500", "250", "2000"],
         },
       ],
-      teamColor: this.$store.state.color
     };
   },
   methods: {
@@ -273,7 +274,6 @@ export default {
   },
   props: {
     progressElement: Array,
-    round: Number,
   },
 };
 </script>

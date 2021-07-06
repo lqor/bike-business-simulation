@@ -9,7 +9,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.use(Vuetify);
 
 const theme = {
-    primary: '#4E9455',
+    primary: '4E9455',
     /* green as logo */
     secondary: '#4E9356,',
     accent: '#9FE3AC',

@@ -194,6 +194,7 @@ export default {
   data() {
     return {
       teamColor: this.$store.state.color,
+      round: this.$store.state.round,
       confirmChangesDialog: false,
       selectedQAType: "",
       QAType: [
@@ -239,10 +240,6 @@ export default {
     }
   },
   props: {
-    round: {
-      type: Number,
-      default: 1,
-    },
     prevInternExtern: {
       type: String,
       default: "",

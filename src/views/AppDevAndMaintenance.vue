@@ -137,6 +137,7 @@ export default {
         },
       ],
       teamColor: this.$store.state.color,
+      round: this.$store.state.round,
     };
   },
   methods: {
@@ -156,10 +157,6 @@ export default {
     }
   },
   props: {
-    round: {
-      type: Number,
-      default: 1,
-    },
     prevOutsComp: {
       type: String,
       default: "",

@@ -2,7 +2,7 @@
      <v-dialog v-model="dialog" width="50%" @click:outside="closeDialog">
             <v-card>
               <v-card-title class="headline grey lighten-2">
-                Round {{ round }}
+                Round {{ this.$store.state.round }}
               </v-card-title>
 
               <v-card-text>
@@ -33,7 +33,6 @@
 <script>
 
 export default {
-    props: ['round'],
     data() {
         return {
             dialog: true,
@@ -46,6 +45,7 @@ export default {
         },
         endRound() {
             this.$emit('endRound');
+            console.log('from dialog: ' + this.$store.state.round);
             // send request to end round
         }
     }

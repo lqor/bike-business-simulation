@@ -4,7 +4,6 @@
       <menu-component 
         v-if="currentRouteName !== 'LandingPage'"
         :calculatedProgressElements="calculatedProgressElements"
-        :round="round"
         @showTodo="toggleShowTodo"
         @closeTodo="toggleShowTodo"
         @toggleRoundRules="toggleRoundRules"
@@ -63,7 +62,6 @@
       <!-- Router (and values as props to pass them to child) -->
       <v-app>
         <router-view
-          :round="round"
           :teamName="teamName"
           :progressElements="progressElements"
           @teamSelected="setTeam"
@@ -78,7 +76,6 @@
         @closeRules="toggleRoundRules"
         :generalRules="false"
         :headerImage="false"
-        :round="round"
       ></round-rules-dialog>
       <todo-dialog  v-if="showTodo" :tasksList="calculatedProgressElements" @closeTodo="toggleShowTodo"></todo-dialog>
     </v-main>
@@ -101,7 +98,7 @@ export default {
     return {
       info: null,
       teamName: "Test",
-      round: 1,
+      round: this.$store.state.round,
       showGeneralRules: false,
       showRoundRules: false,
       showChat: false,
@@ -252,7 +249,7 @@ export default {
     },
     roundUpdate(round) {
       console.log("Round-update");
-      this.round = round;
+      this.$store.state.round = round;
       this.clearProgress();
     },
     clearProgress() {
@@ -265,18 +262,18 @@ export default {
       console.log("New Round Rules");
     },
     endRound() {
-      console.log("End of Round #" + this.round);
+      console.log("End of Round #" + this.$store.state.round);
       /*
         Future Work (TODO):
         enable connection with ABAP-server and send
         post-request about current round-ending.
       */
-      if (this.round >= 6) {
+      if (this.$store.state.round >= 6) {
         // End Game
         this.roundUpdate(1);
         console.log("End Game");
       } else {
-        this.roundUpdate(++this.round);
+        this.roundUpdate(++this.$store.state.round);
       }
     },
     redirectToDashboard() {
@@ -290,14 +287,14 @@ export default {
     },
     calculatedProgressElements() {
       return this.progressElements.filter(
-        (element) => element.requiredRound <= this.round
+        (element) => element.requiredRound <= this.$store.state.round
       );
     },
     currentRouteName() {
       return this.$route.name;
     },
     findRoundRules() {
-      switch (this.round) {
+      switch (this.$store.state.round) {
         case 1:
           return this.rules.round1Rules;
         case 2:
@@ -315,7 +312,7 @@ export default {
       }
     },
     findRoundKeywords() {
-      switch (this.round) {
+      switch (this.$store.state.round) {
         case 1:
           return this.rules.round1Keywords;
         case 2:

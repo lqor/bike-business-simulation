@@ -290,6 +290,7 @@ export default {
   },
   methods: {
     toggleDialog() {
+      console.log(this.$store.state.round);
       this.confirmChangesDialog = !this.confirmChangesDialog;
     },
     toNextStep() {

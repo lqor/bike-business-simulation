@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    currentRound: 1,
+    round: 1,
     nextStep: 0,
     color: '#4E9455'
   }

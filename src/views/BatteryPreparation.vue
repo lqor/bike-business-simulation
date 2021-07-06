@@ -238,7 +238,8 @@ export default {
           value: ["500", "250", "2000"],
         },
       ],
-      teamColor: this.$store.state.color
+      teamColor: this.$store.state.color,
+      round: this.$store.state.round
     };
   },
   methods: {
@@ -271,9 +272,6 @@ export default {
        this.$router.push({ path: "/enginePreparation" });
     }
   },
-  props: {
-    progressElement: Array,
-    round: Number,
-  },
+  props: {progressElement: Array},
 };
 </script>

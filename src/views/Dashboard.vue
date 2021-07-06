@@ -2,7 +2,7 @@
   <v-container id="dashboard">
     <!-- Linear Progress-Bar -->
     <v-row class="pa-6 text-left">
-      <h2>Round {{ round }}</h2>
+      <h2>Round {{ this.$store.state.round }}</h2>
       <v-progress-linear
         style="border-radius: 10px"
         :color="teamColor"
@@ -21,7 +21,6 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-progress-circular
-              :round="round"
               :id="element.id"
               :width="15"
               :rotate="-90"
@@ -38,7 +37,7 @@
           </template>
           <span>{{ element.value }}</span>
         </v-tooltip>
-        <h3 v-show="element.requiredRound <= round">{{ element.name }}</h3>
+        <h3 v-show="showName(element)">{{ element.name }}</h3>
       </v-col>
     </v-row>
 
@@ -74,13 +73,18 @@ export default {
   components: {costAccountingCard, teamsLeaderboard},
   data() {
     return {
-      teamColor: this.$store.state.color
+      teamColor: this.$store.state.color,
     };
+  },
+  methods: {
+    showName(element) {
+      return element.requiredRound <= this.$store.state.round;
+    },
   },
   computed: {
     calculatedProgressElements() {
       return this.progressElements.filter(
-        (element) => element.requiredRound <= this.round
+        (element) => element.requiredRound <= this.$store.state.round
       );
     },
     calculateProgress() {
@@ -89,7 +93,7 @@ export default {
       var stepsNumber = 0;
       var isPrElAllowed = false;
       for (var i = 0; i < prEl.length; i++) {
-        isPrElAllowed = this.round >= prEl[i].requiredRound;
+        isPrElAllowed = this.$store.state.round >= prEl[i].requiredRound;
         sum += isPrElAllowed ? prEl[i].value : 0;
         stepsNumber += isPrElAllowed ? 1 : 0;
       }
@@ -100,7 +104,7 @@ export default {
         In each new round (totally 6) user
         gets some new production-steps
       */
-      switch (this.round) {
+      switch (this.$store.state.round) {
         case 1:
           // (Purchasing, Logistics, Frame Preparation, Sensors Preparation, Bike Construction, Sales)
           return 6;
@@ -120,7 +124,6 @@ export default {
     },
   },
   props: {
-    round: Number,
     progressElements: Array,
     teamName: String,
   }
