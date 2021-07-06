@@ -53,7 +53,6 @@
           :estimatedQual="21.29"
           :maxProdCapac="'Incomplete'"
           :overDemand="40000.0"
-          :teamColor="teamColor"
         />
       </v-col>
     </v-row>
@@ -61,7 +60,7 @@
     <!-- Leaderboard -->
     <v-row class="pa-6 text-left">
       <v-col>
-        <teams-leaderboard :teamColor="teamColor" />
+        <teams-leaderboard />
       </v-col>
     </v-row>
   </v-container>
@@ -74,7 +73,9 @@ import teamsLeaderboard from "../components/teamsLeaderboard.vue";
 export default {
   components: {costAccountingCard, teamsLeaderboard},
   data() {
-    return {};
+    return {
+      teamColor: this.$store.state.color
+    };
   },
   computed: {
     calculatedProgressElements() {
@@ -122,7 +123,6 @@ export default {
     round: Number,
     progressElements: Array,
     teamName: String,
-    teamColor: String,
   }
 };
 </script>

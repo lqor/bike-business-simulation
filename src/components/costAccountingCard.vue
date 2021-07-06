@@ -1,7 +1,7 @@
 <template>
   <!-- Cost Accounting Card -->
   <v-card rounded id="cost-accounting-card">
-    <v-card-title :style="'background-color:' + teamColor +'!important'" style="color: white">Cost Accounting</v-card-title>
+    <v-card-title :style="'background-color:' + this.$store.state.color +'!important'" style="color: white">Cost Accounting</v-card-title>
     <v-card-text>
       <br>
       <p>Budget (EUR): {{ budget }}</p>
@@ -18,7 +18,6 @@
 export default {
   name: "cost-accounting-card",
   props: {
-    teamColor: String,
     budget: {
       type: Number,
       default: 0,
@@ -43,6 +42,6 @@ export default {
       type: Number,
       default: 0,
     },
-  },
+  }
 };
 </script>

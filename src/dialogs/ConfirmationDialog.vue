@@ -24,10 +24,10 @@
 <script>
 export default {
   name: "confirmation-dialog",
-  props: {teamColor: String},
   data() {
     return {
       dialog: true,
+      teamColor: this.$store.state.color
     };
   },
   methods: {

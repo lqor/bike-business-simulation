@@ -50,10 +50,14 @@ import radarChart from "./radarChart.vue";
 
 export default {
   components: {lineChart, pieChart, barChart, radarChart},
-  props:['teamColor'],
+  data() {
+    return {
+      teamColor: this.$store.state.color
+    }
+  },
   methods: {
     getElementByid() {
-      this.$refs.myid.style.opacity = 0.5;
+      // this.$refs.myid.style.opacity = 0.5;
     }
   },
   mounted() {

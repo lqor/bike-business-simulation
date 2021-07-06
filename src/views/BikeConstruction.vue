@@ -25,7 +25,6 @@
       :maxProdCapac="'Incomplete'"
       :overDemand="40000.0"
       style="height: 500px;"
-      :teamColor="teamColor"
     />
 
     <v-divider />
@@ -200,7 +199,6 @@
     </v-row>
     <confirmation-dialog 
       v-if="confirmChangesDialog"
-      :teamColor="teamColor" 
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
@@ -216,6 +214,7 @@ export default {
   name: "bike-construction",
   data() {
     return {
+      teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       selectedLine: "",
       numOfLines: 1,
@@ -268,9 +267,6 @@ export default {
        this.$router.push({ path: "/batteryPreparation" });
     }
   },
-  props: {
-    progressElement: Array,
-    teamColor: String,
-  },
+  props: {progressElement: Array},
 };
 </script>

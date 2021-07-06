@@ -2,7 +2,6 @@
   <v-container id="frame-preparation">
     <!-- custom component with statistic about current, previous round and cost accounting -->
     <prev-cur-round-stats
-      :teamColor="teamColor"
       :prevAsmLine="'SmartLine'"
       :prevAsmLineCost="0.0"
       :prevNumOfAsmLines="0"
@@ -198,7 +197,6 @@
     </v-row>
     <confirmation-dialog 
       v-if="confirmChangesDialog"
-      :teamColor="teamColor" 
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
@@ -234,6 +232,7 @@ export default {
           value: ["500", "250", "2000"],
         },
       ],
+      teamColor: this.$store.state.color
     };
   },
   methods: {
@@ -268,7 +267,6 @@ export default {
   },
   props: {
     progressElement: Array,
-    teamColor: String,
   },
 };
 </script>

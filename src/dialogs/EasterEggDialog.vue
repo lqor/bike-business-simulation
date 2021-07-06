@@ -27,10 +27,10 @@
 <script>
 
 export default {
-  props: ['teamColor'],
    data () {
       return {
-        dialog: true
+        dialog: true,
+        teamColor: this.$store.state.color
       }
     },
     methods: {

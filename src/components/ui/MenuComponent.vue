@@ -56,7 +56,7 @@
 
 <script>
 export default {
-  props: ['calculatedProgressElements', 'teamColor', 'round'],
+  props: ['calculatedProgressElements', 'round'],
   methods: {
     showTodo() {
       this.$emit('showTodo');
@@ -65,7 +65,7 @@ export default {
       this.$emit('toggleRoundRules');
     },
     toggleGeneralRules() {
-          console.log(this.$store.state['count']);
+          // console.log(this.$store.state['count']);
 
       this.$emit('toggleGeneralRules');
     },
@@ -78,7 +78,8 @@ export default {
   },
   data() {
     return {
-      charts: "/charts"
+      charts: "/charts",
+      teamColor: this.$store.state.color
     }
   }
 }

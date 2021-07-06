@@ -33,10 +33,11 @@
 <script>
 
 export default {
-    props: ['round', 'teamColor'],
+    props: ['round'],
     data() {
         return {
-            dialog: true
+            dialog: true,
+            teamColor: this.$store.state.color
         }
     },
     methods: {

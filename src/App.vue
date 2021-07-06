@@ -3,7 +3,6 @@
     <v-main>
       <menu-component 
         v-if="currentRouteName !== 'LandingPage'"
-        :teamColor="teamColor"
         :calculatedProgressElements="calculatedProgressElements"
         :round="round"
         @showTodo="toggleShowTodo"
@@ -20,7 +19,7 @@
           <h1>{{ currentRouteName }}</h1>
           <h3><b>Team Name: </b> {{ teamName }}</h3>
           <h3
-            :style="'background-color:' + teamColor + '!important'"
+            :style="'background-color:' + this.$store.state.color + '!important'"
             style="color: white"
           >
           </h3>
@@ -40,7 +39,7 @@
           <v-btn
             v-if="currentRouteName !== 'Dashboard'"
             rounded
-            :color="teamColor"
+            :color="this.$store.state.color"
             dark
             @click="redirectToDashboard"
           >
@@ -50,13 +49,12 @@
           <!-- Button (End-Round: for Dashboard-view and Go-Back for other) -->
           <end-round-dialog 
             v-if="showEndRoundModal" 
-            :teamColor="teamColor"
             @closeEndRoundModal="toggleEndRoundsModal"
             @endRound="endRound(); toggleEndRoundsModal();"
           >
           </end-round-dialog>
           <!-- Button (End-Round: for Dashboard-view and Go-Back for other) -->
-          <v-btn v-if="currentRouteName === 'Dashboard'" :color="teamColor" @click="toggleEndRoundsModal" rounded dark link>
+          <v-btn v-if="currentRouteName === 'Dashboard'" :color="this.$store.state.color" @click="toggleEndRoundsModal" rounded dark link>
               <b>End Round</b>
           </v-btn>
         </v-col>
@@ -67,24 +65,22 @@
         <router-view
           :round="round"
           :teamName="teamName"
-          :teamColor="teamColor"
           :progressElements="progressElements"
           @teamSelected="setTeam"
           @updateProgress="updateProgress"
         />
       </v-app>
 
-      <general-rules v-if="showGeneralRules" :teamColor="teamColor" @closeRules="toggleGeneralRules"></general-rules>
-      <easter-egg-dialog v-if="secretDialog" :teamColor="teamColor" @closeEasterEgg="toggleSecretDialog" ></easter-egg-dialog>
+      <general-rules v-if="showGeneralRules" @closeRules="toggleGeneralRules"></general-rules>
+      <easter-egg-dialog v-if="secretDialog" @closeEasterEgg="toggleSecretDialog" ></easter-egg-dialog>
       <round-rules-dialog 
         v-if="showRoundRules" 
-        :teamColor="teamColor" 
         @closeRules="toggleRoundRules"
         :generalRules="false"
         :headerImage="false"
         :round="round"
       ></round-rules-dialog>
-      <todo-dialog  v-if="showTodo" :teamColor="teamColor" :tasksList="calculatedProgressElements" @closeTodo="toggleShowTodo"></todo-dialog>
+      <todo-dialog  v-if="showTodo" :tasksList="calculatedProgressElements" @closeTodo="toggleShowTodo"></todo-dialog>
     </v-main>
   </v-app>
 </template>
@@ -105,7 +101,6 @@ export default {
     return {
       info: null,
       teamName: "Test",
-      teamColor: "",
       round: 1,
       showGeneralRules: false,
       showRoundRules: false,
@@ -241,7 +236,7 @@ export default {
     },
     setTeam(name, color, showDialog) {
       this.teamName = name;
-      this.teamColor = color;
+      this.$store.state.color = color;
       this.showGeneralRules = showDialog;
     },
     toggleGeneralRules() {

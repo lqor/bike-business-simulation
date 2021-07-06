@@ -26,7 +26,6 @@
         :maxProdCapac="'Incomplete'"
         :overDemand="40000.0"
         style="height: 450px;"
-        :teamColor="teamColor"
       />
 
       <v-divider />
@@ -199,7 +198,6 @@
     </v-row>
       <confirmation-dialog 
         v-if="confirmChangesDialog"
-        :teamColor="teamColor" 
         @closeDialog="toggleDialog"
         @updateProgress="updateProgress"
       ></confirmation-dialog>
@@ -240,6 +238,7 @@ export default {
           value: ["500", "250", "2000"],
         },
       ],
+      teamColor: this.$store.state.color
     };
   },
   methods: {
@@ -273,7 +272,6 @@ export default {
     }
   },
   props: {
-    teamColor: String,
     progressElement: Array,
     round: Number,
   },

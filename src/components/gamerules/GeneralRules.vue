@@ -112,13 +112,13 @@ import GameSteps from './GameSteps.vue';
 
 export default {
     components: {GameSteps},
-    props: ['teamColor'],
     data() {
         return {
           dialog: true,
           rulesRead: false,
           showNextButton: true,
-          currentRuleNumber: 0
+          currentRuleNumber: 0,
+          teamColor: this.$store.state.color
         }
     },
     methods: {

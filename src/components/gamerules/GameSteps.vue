@@ -13,7 +13,6 @@
 
 <script>
 export default {
-    props: ['teamColor'],
     data() {
         return {
            calculatedProgressElements: [

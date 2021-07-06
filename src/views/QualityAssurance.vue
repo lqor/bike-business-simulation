@@ -51,7 +51,6 @@
             :estimatedQual="21.29"
             :maxProdCapac="'Incomplete'"
             :overDemand="40000.0"
-            :teamColor="teamColor"
           />
         </v-col>
       </v-row>
@@ -175,7 +174,6 @@
     </v-row>
     <confirmation-dialog 
       v-if="confirmChangesDialog"
-      :teamColor="teamColor" 
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
@@ -195,6 +193,7 @@ export default {
   components: { costAccountingCard, ConfirmationDialog },
   data() {
     return {
+      teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       selectedQAType: "",
       QAType: [
@@ -240,7 +239,6 @@ export default {
     }
   },
   props: {
-    teamColor: String,
     round: {
       type: Number,
       default: 1,

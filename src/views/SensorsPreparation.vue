@@ -25,7 +25,6 @@
       :maxProdCapac="'Incomplete'"
       :overDemand="40000.0"
       style="height: 500px;"
-      :teamColor="teamColor"
     />
 
     <v-divider />
@@ -198,7 +197,6 @@
     </v-row>
     <confirmation-dialog 
       v-if="confirmChangesDialog"
-      :teamColor="teamColor" 
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
@@ -214,6 +212,7 @@ export default {
   name: "sensors-preparation",
   data() {
     return {
+      teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       selectedLine: "",
       numOfLines: 1,
@@ -268,7 +267,6 @@ export default {
   },
   props: {
     progressElement: Array,
-    teamColor: String,
   },
 };
 </script>

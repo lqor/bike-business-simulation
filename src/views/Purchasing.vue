@@ -208,7 +208,6 @@
     
     <confirmation-dialog 
       v-if="confirmChangesDialog"
-      :teamColor="teamColor" 
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
@@ -223,6 +222,7 @@ export default {
   name: "Purchaising",
   data() {
     return {
+      teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       selectedVendor: "",
       vendors: [
@@ -317,6 +317,6 @@ export default {
       }
     },
   },
-  props: {progressElements: Array, teamColor: String},
+  props: {progressElements: Array},
 };
 </script>
