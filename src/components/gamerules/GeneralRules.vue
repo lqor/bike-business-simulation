@@ -90,17 +90,28 @@
             
             <v-divider />
 
-            <v-card-actions  class="card-actions">
+            <v-card-actions v-if="this.$store.state.generalRulesRead" class="card-actions">
                 <v-btn :color="teamColor" @click="back" dark left>
                     Back
                 </v-btn>
-                 <v-spacer />
+                <v-spacer />
                 <v-btn color="red" @click="closeDialog" dark text>
                     Close
                 </v-btn>
 
                 <v-btn :color="teamColor" @click="next" dark right>
                     Next
+                </v-btn>
+            </v-card-actions>
+            <v-card-actions v-else class="card-actions">
+                <v-spacer />
+
+                <v-btn v-if="this.timerCount === 0" :color="teamColor" @click="next" dark right>
+                    Next
+                </v-btn>
+
+                <v-btn v-else :color="teamColor" @click="next" right disabled>
+                    Next button will be availible in {{this.timerCount}} seconds
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -115,19 +126,24 @@ export default {
     data() {
         return {
           dialog: true,
-          rulesRead: false,
           showNextButton: true,
           currentRuleNumber: 0,
-          teamColor: this.$store.state.color
+          teamColor: this.$store.state.color,
+          timerCount: 0 // change to 5...10 for production
         }
     },
     methods: {
       closeDialog() {
         this.$emit('closeRules');
+
+        if(!this.$store.state.roundRulesRead) {
+            this.$emit('showRoundRules');
+        }
       },
       next() {
+            // this.timerCount = 5; // change to 5...10 for production
             if(this.currentRuleNumber === 3) {
-                this.rulesRead = true;
+                this.$store.state.generalRulesRead = true;
             } 
             
             if(this.currentRuleNumber < 4) {
@@ -139,7 +155,7 @@ export default {
                 this.currentRuleNumber--;
             } 
       }
-    }/*,
+    },
     watch: {
         timerCount: {
             handler(value) {
@@ -152,7 +168,7 @@ export default {
             },
             immediate: true // This ensures the watcher is triggered upon creation
         }
-    }*/
+    }
 }
 </script>
 

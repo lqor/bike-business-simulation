@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <menu-component 
-        v-if="currentRouteName !== 'LandingPage'"
+        v-if="currentRouteName !== 'LandingPage' && this.showMenu"
         :calculatedProgressElements="calculatedProgressElements"
         @showTodo="toggleShowTodo"
         @closeTodo="toggleShowTodo"
@@ -13,7 +13,11 @@
       ></menu-component>
       
       <!-- Header -->
-      <v-row v-if="currentRouteName !== 'LandingPage'" class="pa-3 mx-3 text-left justify-space-between">
+      <v-row 
+        v-if="currentRouteName !== 'LandingPage'" 
+        class="pa-3 mx-3 text-left justify-space-between"
+        ref="header"
+      >
         <v-col class="d-flex flex-column justify-start align-start">
           <h1>{{ currentRouteName }}</h1>
           <h3><b>Team Name: </b> {{ teamName }}</h3>
@@ -39,8 +43,9 @@
             v-if="currentRouteName !== 'Dashboard'"
             rounded
             :color="this.$store.state.color"
-            dark
+            :dark="this.showMenu"
             @click="redirectToDashboard"
+            :disabled="!this.showMenu"
           >
             Go Back to Dashboard
           </v-btn>
@@ -53,11 +58,17 @@
           >
           </end-round-dialog>
           <!-- Button (End-Round: for Dashboard-view and Go-Back for other) -->
-          <v-btn v-if="currentRouteName === 'Dashboard'" :color="this.$store.state.color" @click="toggleEndRoundsModal" rounded dark link>
+          <v-btn 
+            v-if="currentRouteName === 'Dashboard'" 
+            :color="this.$store.state.color" 
+            :disabled="!this.showMenu"
+            @click="toggleEndRoundsModal" 
+            rounded dark link>
               <b>End Round</b>
           </v-btn>
         </v-col>
       </v-row>
+      <!-- End Header -->
 
       <!-- Router (and values as props to pass them to child) -->
       <v-app>
@@ -66,10 +77,15 @@
           :progressElements="progressElements"
           @teamSelected="setTeam"
           @updateProgress="updateProgress"
+          @toggleMenuVisability="toggleMenuVisability"
         />
       </v-app>
 
-      <general-rules v-if="showGeneralRules" @closeRules="toggleGeneralRules"></general-rules>
+      <general-rules 
+        v-if="showGeneralRules" 
+        @closeRules="toggleGeneralRules"
+        @showRoundRules="toggleRoundRules"
+      ></general-rules>
       <easter-egg-dialog v-if="secretDialog" @closeEasterEgg="toggleSecretDialog" ></easter-egg-dialog>
       <round-rules-dialog 
         v-if="showRoundRules" 
@@ -105,6 +121,7 @@ export default {
       showEndRoundModal: false,
       showTodo: false,
       secretDialog: false,
+      showMenu: true,
       progressElements: [
         {
           id: "purchasing",
@@ -269,7 +286,9 @@ export default {
       this.progressElements.forEach((element) => {
         element.value = 5;
       });
-      this.$store.state.nextStep = 'purchasing';
+      this.$store.state.nextStep = 'purchasing'; 
+      this.toggleRoundRules();
+      this.$store.state.roundRulesRead = false;
     },
     newRoundRules() {
       console.log("New Round Rules");
@@ -292,7 +311,17 @@ export default {
     redirectToDashboard() {
       console.log("redirect to Dashboard");
       this.$router.push({ path: "/dashboard" });
+      this.$store.state.currentPath = "/dashboard";
     },
+    toggleMenuVisability() {
+      this.showMenu = !this.showMenu;
+
+       if(this.showMenu) {
+        this.$refs["header"].style.opacity = 1;
+      } else {
+        this.$refs["header"].style.opacity = 0.3;
+      }
+    }
   },
   computed: {
     showEndRoundButton() {
@@ -346,7 +375,7 @@ export default {
   created() {
     // Navigate to main path when app is started
     if (this.$route.path !== "/") {
-      this.$router.push("/");
+      this.$router.push(this.$store.state.currentPath);
     }
   },
   mounted() {    

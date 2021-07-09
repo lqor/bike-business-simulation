@@ -1,7 +1,7 @@
 <template>
   <v-container id="purchasing">
     <!-- Statistic about current and previous round -->
-    <v-row>
+    <v-row ref="round-data">
       <v-col>
         <!-- Previous Round Data -->
         <v-card>
@@ -57,133 +57,149 @@
 
     <v-divider />
 
+    <v-row v-if="this.$store.state.purchasingStep <= 4" class="pa-2" style="margin-top: 20px; margin-bottom: 40px;">
+      <v-col align="left" cols="9">
+        <div>
+          <h2>{{ this.stepText }}</h2>
+        </div>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="nextPurchasingStep" dark rounded link :color="teamColor">
+          <b>I understand</b>
+        </v-btn>
+      </v-col>
+      
+    </v-row>
+
     <!-- Managing purchaising process -->
-    <v-row style="margin-top: 10px;">
-      <h2 style="text-align: left;">Manage purchaising process</h2>
-    </v-row>
+    <div ref="logic">
+      <v-row style="margin-top: 10px;">
+        <h2 style="text-align: left;">Manage purchaising process</h2>
+      </v-row>
 
-    <v-row>
-      <v-col>
-        <v-select
-          v-model="selectedVendor"
-          :items="vendors"
-          :color="teamColor"
-          label="Choose vendor..."
-          item-text="name"
-        />
-        <v-slider
-          v-model="quality.val"
-          :label="quality.label"
-          :color="teamColor"
-          :min="1"
-          :max="100"
-          :thumb-color="teamColor"
-          thumb-label="always"
-          :track-color="'teamColor' + 'lighten-3'"
-          :track-fill-color="teamColor"
-        >
-          <template v-slot:append>
-            <v-text-field
-              v-model="quality.val"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              :min="1"
-              :thumb-size="24"
-              :max="100"
-              type="number"
-              style="width: 60px"
-            />
-          </template>
-        </v-slider>
-      </v-col>
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="selectedVendor"
+            :items="vendors"
+            :color="teamColor"
+            label="Choose vendor..."
+            item-text="name"
+          />
+          <v-slider
+            v-model="quality.val"
+            :label="quality.label"
+            :color="teamColor"
+            :min="1"
+            :max="100"
+            :thumb-color="teamColor"
+            thumb-label="always"
+            :track-color="'teamColor' + 'lighten-3'"
+            :track-fill-color="teamColor"
+          >
+            <template v-slot:append>
+              <v-text-field
+                v-model="quality.val"
+                class="mt-0 pt-0"
+                hide-details
+                single-line
+                :min="1"
+                :thumb-size="24"
+                :max="100"
+                type="number"
+                style="width: 60px"
+              />
+            </template>
+          </v-slider>
+        </v-col>
 
-      <v-col>
-        <v-text-field
-          label="Frame: Cost per material (EUR)"
-          :value="calculateCostPerMaterial(selectedVendor[0])"
-          filled
-          disabled
-        />
-        <v-text-field
-          label="Sensors: Cost per material (EUR)"
-          :value="calculateCostPerMaterial(selectedVendor[1])"
-          filled
-          disabled
-        />
-      </v-col>
+        <v-col>
+          <v-text-field
+            label="Frame: Cost per material (EUR)"
+            :value="calculateCostPerMaterial(selectedVendor[0])"
+            filled
+            disabled
+          />
+          <v-text-field
+            label="Sensors: Cost per material (EUR)"
+            :value="calculateCostPerMaterial(selectedVendor[1])"
+            filled
+            disabled
+          />
+        </v-col>
 
-      <v-col>
-        <v-slider
-          v-model="amount.frames"
-          label="Frames: Amount (PC)"
-          :color="teamColor"
-          :min="1"
-          :max="100"
-          :thumb-color="teamColor"
-          :thumb-size="24"
-          thumb-label="always"
-          :track-color="'teamColor' + 'lighten-3'"
-          :track-fill-color="teamColor"
-        >
-          <template v-slot:append>
-            <v-text-field
-              v-model.number="amount.frames"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              :min="1"
-              :max="100"
-              type="number"
-              style="width: 60px"
-            />
-          </template>
-        </v-slider>
+        <v-col>
+          <v-slider
+            v-model="amount.frames"
+            label="Frames: Amount (PC)"
+            :color="teamColor"
+            :min="1"
+            :max="100"
+            :thumb-color="teamColor"
+            :thumb-size="24"
+            thumb-label="always"
+            :track-color="'teamColor' + 'lighten-3'"
+            :track-fill-color="teamColor"
+          >
+            <template v-slot:append>
+              <v-text-field
+                v-model.number="amount.frames"
+                class="mt-0 pt-0"
+                hide-details
+                single-line
+                :min="1"
+                :max="100"
+                type="number"
+                style="width: 60px"
+              />
+            </template>
+          </v-slider>
 
-        <v-slider
-          v-model="amount.sensors"
-          label="Sensor: Amount (PC)"
-          :color="teamColor"
-          :min="1"
-          :max="100"
-          :thumb-color="teamColor"
-          thumb-label="always"
-          :thumb-size="24"
-          :track-color="'teamColor' + 'lighten-3'"
-          :track-fill-color="teamColor"
-        >
-          <template v-slot:append>
-            <v-text-field
-              v-model="amount.sensors"
-              class="mt-0 pt-0"
-              hide-details
-              single-line
-              :min="1"
-              :max="100"
-              type="number"
-              style="width: 60px"
-            />
-          </template>
-        </v-slider>
-      </v-col>
+          <v-slider
+            v-model="amount.sensors"
+            label="Sensor: Amount (PC)"
+            :color="teamColor"
+            :min="1"
+            :max="100"
+            :thumb-color="teamColor"
+            thumb-label="always"
+            :thumb-size="24"
+            :track-color="'teamColor' + 'lighten-3'"
+            :track-fill-color="teamColor"
+          >
+            <template v-slot:append>
+              <v-text-field
+                v-model="amount.sensors"
+                class="mt-0 pt-0"
+                hide-details
+                single-line
+                :min="1"
+                :max="100"
+                type="number"
+                style="width: 60px"
+              />
+            </template>
+          </v-slider>
+        </v-col>
 
-      <v-col>
-        <v-text-field
-          label="Frame: Total cost (EUR)"
-          :value="calculateTotalCost(selectedVendor[0], amount.frames)"
-          filled
-          disabled
-        />
-        <v-text-field
-          label="Sensors: Total cost (EUR)"
-          :value="calculateTotalCost(selectedVendor[1], amount.sensors)"
-          filled
-          disabled
-        />
-      </v-col>
-    </v-row>
+        <v-col>
+          <v-text-field
+            label="Frame: Total cost (EUR)"
+            :value="calculateTotalCost(selectedVendor[0], amount.frames)"
+            filled
+            disabled
+          />
+          <v-text-field
+            label="Sensors: Total cost (EUR)"
+            :value="calculateTotalCost(selectedVendor[1], amount.sensors)"
+            filled
+            disabled
+          />
+        </v-col>
+      </v-row>
+    </div>
 
-    <v-row>
+    <v-row ref="navigation">
         <v-col md='4' align="left">
           <v-btn :color="teamColor" rounded disabled>
             <v-icon left>mdi-arrow-left-bold-circle-outline</v-icon>
@@ -192,7 +208,12 @@
         </v-col>
 
         <v-col align="center" md="4">
-          <v-btn :color="teamColor" rounded dark @click="toggleDialog" center>
+          <v-btn 
+            :color="teamColor" 
+            rounded dark
+            @click="toggleDialog" 
+            center
+          >
             <v-icon left>mdi-check-outline</v-icon>
             Accept changes
           </v-btn>
@@ -222,9 +243,11 @@ export default {
   name: "Purchaising",
   data() {
     return {
+      isEditing: true,
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       selectedVendor: "",
+      stepText: '',
       vendors: [
         {
           name: "Bavaria eBike",
@@ -290,15 +313,20 @@ export default {
   },
   methods: {
     toggleDialog() {
-      console.log(this.$store.state.round);
-      this.confirmChangesDialog = !this.confirmChangesDialog;
+      if(this.$store.state.purchasingStep >= 5){
+        this.confirmChangesDialog = !this.confirmChangesDialog;
+      }
     },
     toNextStep() {
-      this.$router.push({ path: "/logistics" });
+      if(this.$store.state.purchasingStep >= 5) {
+        this.$router.push({ path: "/logistics" });
+        this.$store.state.currentPath = "/logistics";
+      }
     },
     updateProgress() {
       this.$emit("updateProgress", "purchasing", 100);
       this.$router.push({ path: "/dashboard" });
+      this.$store.state.currentPath = "/dashboard";
       this.toggleDialog();
     },
     calculateCostPerMaterial(selectedVendor) {
@@ -317,7 +345,82 @@ export default {
         return (this.calculateCostPerMaterial(selectedVendor) * amount).toFixed(2);
       }
     },
+    nextPurchasingStep() {
+       if(this.$store.state.purchasingStep === 1) {
+        this.dataStep();
+      } else if(this.$store.state.purchasingStep === 2) {
+        this.logicStep();
+      } else if(this.$store.state.purchasingStep === 3) {
+        this.navigationStep();
+      } else {
+        this.unlockStep();
+      }
+
+      this.$store.state.purchasingStep++;
+    },
+    dataStep() {
+      this.stepText = 'In these tables you can find useful information to previous and current round. Left is previous round and right is current';
+
+      this.$emit('toggleMenuVisability');
+
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 0.3);
+      this.setOpacity("navigation", 0.3);
+
+      this.setBorder("round-data");
+    },
+    logicStep() {
+      this.stepText = 'Choose here vendor wisely and think about which parts from which vendor you should buy. The price does not affect the quality!'
+
+      this.setOpacity("logic", 1);
+      this.setOpacity("round-data", 0.3);
+
+      this.setBorder("logic");
+      this.resetBorder("round-data");
+    },
+    navigationStep() {
+      this.stepText = 'You can also navigate through different steps. Do not forget that the steps may differ depending on the round'
+
+      this.setOpacity("navigation", 1);
+      this.setOpacity("logic", 0.3);
+
+      this.setBorder("navigation");
+      this.resetBorder("logic");
+    },
+    unlockStep() {
+      this.resetBorder("navigation");
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 1);
+
+      this.$emit('toggleMenuVisability');
+    },
+    setBorder(name) {
+      this.$refs[name].style.border = '5px solid red';
+      this.$refs[name].style.borderRadius = '20px';
+    },
+    resetBorder(name) {
+      this.$refs[name].style.border = '0px';
+    },
+    setOpacity(name, value) {
+      this.$refs[name].style.opacity = value;
+    },
+    preventNav(event) {
+      console.log(event);
+      if (window.confirm("Leave without saving?")) {
+        return;
+      }
+    }
   },
-  props: {},
+  beforeMount() {
+    window.addEventListener("beforeunload", this.preventNav)
+    this.$once("hook:beforeDestroy", () => {
+      window.removeEventListener("beforeunload", this.preventNav);
+    })
+  },
+  mounted() {
+    if(this.$store.state.purchasingStep <= 4) {
+      this.nextPurchasingStep();
+    }  
+  },
 };
 </script>

@@ -8,12 +8,12 @@
         </v-list-item>
 
         <v-divider />
-        
-        <v-list-item @click="toggleChat">
+
+        <v-list-item :to="charts">
           <v-list-item-icon >
-            <v-icon style="color:white">mdi-pencil-circle-outline</v-icon>
+            <v-icon style="color:white">mdi-chart-line</v-icon>
           </v-list-item-icon>
-           <v-list-item-title  class="list-item">Write to admin</v-list-item-title>
+           <v-list-item-title  class="list-item">Statistics</v-list-item-title>
         </v-list-item>
 
         <v-list-item @click="showTodo">
@@ -22,12 +22,12 @@
           </v-list-item-icon>
            <v-list-item-title  class="list-item">Show todo</v-list-item-title>
         </v-list-item>
-
-        <v-list-item :to="charts">
+        
+        <v-list-item @click="toggleChat">
           <v-list-item-icon >
-            <v-icon style="color:white">mdi-chart-line</v-icon>
+            <v-icon style="color:white">mdi-pencil-circle-outline</v-icon>
           </v-list-item-icon>
-           <v-list-item-title  class="list-item">Statistics</v-list-item-title>
+           <v-list-item-title  class="list-item">Write to admin</v-list-item-title>
         </v-list-item>
 
         <v-list-item @click="toggleRoundRules">
@@ -42,13 +42,6 @@
             <v-icon style="color:white">mdi-help-circle</v-icon>
           </v-list-item-icon>
             <v-list-item-title class="list-item">General Rules</v-list-item-title>
-        </v-list-item>
-
-         <v-list-item @click="endRound">
-          <v-list-item-icon >
-            <v-icon style="color:white">mdi-tooltip-check-outline</v-icon>
-          </v-list-item-icon>
-           <v-list-item-title class="list-item">End round</v-list-item-title>
         </v-list-item>
 
   </v-navigation-drawer>

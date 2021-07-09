@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import costAccountingCard from "./costAccountingCard";
+import CostAccountingCard from "./CostAccountingCard";
 export default {
   name: "prev-cur-round-stats",
-  components: { costAccountingCard },
+  components: { CostAccountingCard },
   props: {
     prevAsmLine: {
       type: String,

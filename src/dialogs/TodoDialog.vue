@@ -29,7 +29,7 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn :color="teamColor" text @click="closeDialog">
+            <v-btn color="red" text @click="closeDialog">
               <b>Close</b>
             </v-btn>
           </v-card-actions>
@@ -55,6 +55,7 @@ export default {
         navigateToItem(itemId) {
             this.closeDialog();
             this.$router.push({ path: "/" + itemId });
+            this.$store.state.currentPath = "/" + itemId;
         },
         calculateStyle(itemValue) {
             const normalItemStyle = 'color: ' + this.teamColor + '; font-weight: 600;';

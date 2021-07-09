@@ -13,7 +13,12 @@ const store = new Vuex.Store({
   state: {
     round: 1,
     nextStep: 'purchasing',
-    color: '#4E9455'
+    color: '#4E9455',
+    generalRulesRead: false,
+    roundRulesRead: false,
+    dashboardStep: 1,
+    purchasingStep: 1,
+    currentPath: '/'
   }
 });
 

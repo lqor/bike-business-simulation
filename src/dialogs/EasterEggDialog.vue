@@ -16,8 +16,8 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn :color="teamColor" text @click="closeDialog">
-              <b>Close Dialog</b>
+            <v-btn color="red" text @click="closeDialog">
+              <b>Close</b>
             </v-btn>
           </v-card-actions>
         </v-card>

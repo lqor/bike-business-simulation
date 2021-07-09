@@ -1,49 +1,64 @@
 <template>
   <v-container id="dashboard">
     <!-- Linear Progress-Bar -->
-    <v-row class="pa-6 text-left">
-      <h2>Round {{ this.$store.state.round }}</h2>
-      <v-progress-linear
-        style="border-radius: 10px"
-        :color="teamColor"
-        height="30"
-        :value="calculateProgress"
-        rounded
-        striped
-      >
-        <strong>{{ calculateProgress }}%</strong>
-      </v-progress-linear>
-    </v-row>
+    <div ref="round-items">
+      <v-row class="pa-6 text-left" ref="progress-bar">
+        <h2>Round {{ this.$store.state.round }}</h2>
+        <v-progress-linear
+          style="border-radius: 10px"
+          :color="teamColor"
+          height="30"
+          :value="calculateProgress"
+          rounded
+          striped
+        >
+          <strong>{{ calculateProgress }}%</strong>
+        </v-progress-linear>
+      </v-row>
 
-    <!-- Circular Progress-Bars with Pop-Overs -->
-    <v-row class="pa-10 text-center">
-      <v-col v-for="element in calculatedProgressElements" :key="element.id" >
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-progress-circular
-              :id="element.id"
-              :width="15"
-              :rotate="-90"
-              :size="100"
-              :value="element.value"
-              @click="$router.push(element.id)"
-              style="cursor: pointer;"
-              :class="calculateClass(element)"
-              :color="teamColor"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <v-icon color="black" large>{{ element.icon }}</v-icon>
-            </v-progress-circular>
-          </template>
-          <span>{{ element.value }}</span>
-        </v-tooltip>
-        <h3 v-show="showName(element)">{{ element.name }}</h3>
+      <!-- Circular Progress-Bars with Pop-Overs -->
+      <v-row class="pa-10 text-center" >
+        <v-col v-for="element in calculatedProgressElements" :key="element.id">
+          <v-tooltip bottom content-class='custom-tooltip' >
+            <template v-slot:activator="{ on, attrs }">
+              <v-progress-circular
+                :id="element.id"
+                :width="15"
+                :rotate="-90"
+                :size="100"
+                :value="element.value"
+                @click="$router.push(element.id)"
+                style="cursor: pointer;"
+                :class="calculateClass(element)"
+                class="item"
+                :color="teamColor"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon color="black" large>{{ element.icon }}</v-icon>
+              </v-progress-circular>
+            </template>
+          </v-tooltip>
+          <h3 v-show="showName(element)">{{ element.name }}</h3>
+        </v-col>
+      </v-row>
+    </div>
+
+    <v-row v-if="this.$store.state.dashboardStep <= 4" ref="guide-btn" class="pa-2">
+      <v-col align="left" cols="9">
+        <div>
+          <h2>{{ this.stepText }}</h2>
+        </div>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="nextDashboardStep" link dark rounded :color="teamColor">
+          <b>I understand</b>
+        </v-btn>
       </v-col>
     </v-row>
 
     <!-- Cards -->
-    <v-row class="pa-6 text-left">
+    <v-row class="pa-6 text-left" ref="cards">
       <v-col>
         <cost-accounting-card 
           style="height:100%"
@@ -58,7 +73,7 @@
     </v-row>
 
     <!-- Leaderboard -->
-    <v-row class="pa-6 text-left">
+    <v-row class="pa-6 text-left" ref="leaderboard">
       <v-col>
         <teams-leaderboard />
       </v-col>
@@ -67,14 +82,15 @@
 </template>
 
 <script>
-import costAccountingCard from "../components/costAccountingCard.vue";
-import teamsLeaderboard from "../components/teamsLeaderboard.vue";
+import TeamsLeaderboard from "../components/TeamsLeaderboard.vue";
+import CostAccountingCard from "../components/CostAccountingCard.vue";
 
 export default {
-  components: {costAccountingCard, teamsLeaderboard},
+  components: {CostAccountingCard, TeamsLeaderboard},
   data() {
     return {
       teamColor: this.$store.state.color,
+      stepText: ''
     };
   },
   methods: {
@@ -83,11 +99,67 @@ export default {
     },
     calculateClass(element) {
       if(this.$store.state.nextStep === element.id && this.$store.state.nextStep !== 'none') {
-        console.log('calculateClass: ' + this.$store.state.nextStep);
         return 'grounded-radiants';
       } else {
         return '';
       }
+    },
+    nextDashboardStep() {
+      if(this.$store.state.dashboardStep === 1) {
+        this.stepText = 'Here you can see all your steps. Left is the first step and right is the last one. But you can jump between them as you want!';
+        this.firstStep();
+      } else if(this.$store.state.dashboardStep === 2) {
+        this.stepText = 'Here you can find useful data about your current financial situation';
+        this.secondStep();
+      } else if(this.$store.state.dashboardStep === 3){
+        this.stepText = 'And here you can compare your team with others! Every single decision can get you to #1';
+        this.thirdStep();
+      } else {
+        this.finalStep();
+      }
+
+      this.$store.state.dashboardStep++;
+    },
+    firstStep() {
+      this.$emit('toggleMenuVisability');
+
+      this.setOpacity("cards", 0.3);
+      this.setOpacity("leaderboard", 0.3);
+
+      this.setBorder("round-items");
+    },
+    secondStep() {
+      this.setOpacity("round-items", 0.3);
+      this.setOpacity("cards", 1);
+
+      this.resetBorder("round-items");
+      this.setBorder("cards");
+    },
+    thirdStep() {
+      this.setOpacity("cards", 0.3);
+      this.setOpacity("leaderboard", 1);
+
+      this.resetBorder("cards");
+      this.setBorder("leaderboard");
+    },
+    finalStep() {
+      this.$emit('toggleHeaderVisability');
+      this.$emit('toggleMenuVisability');
+
+      this.resetBorder("leaderboard");
+      this.setOpacity("leaderboard", 1);
+      this.setOpacity("round-items", 1);
+      this.setOpacity("cards", 1);
+    },
+    setBorder(name) {
+      this.$refs[name].style.border = '5px solid red';
+      this.$refs[name].style.borderRadius = '20px';
+    },
+    resetBorder(name) {
+      this.$refs[name].style.border = '0px';
+    },
+    setOpacity(name, value) {
+      this.$refs[name].style.opacity = value;
     }
   },
   computed: {
@@ -132,9 +204,11 @@ export default {
       }
     },
   },
-  props: {
-    progressElements: Array,
-    teamName: String,
+  props: {progressElements: Array,teamName: String,},
+  mounted() {
+    if(this.$store.state.dashboardStep <= 3) {
+      this.nextDashboardStep();
+    }    
   }
 };
 </script>
@@ -144,13 +218,20 @@ export default {
     position: relative;
     border: 1px solid transparent;
     border-radius: 50px;
-    background: linear-gradient(rgba(43, 255, 107, 0.5), rgba(94, 255, 175, 0.274));
+    background: rgb(220, 255, 220);
     background-clip: padding-box;
     padding: 10px;
-    box-shadow: 0 0 20px rgba(0, 126, 0, 0.472);
+    box-shadow: 0 0 25px rgba(1, 248, 1, 0.733);
 }
 
 .grounded-radiants::after {
     z-index: -1;
+}
+.custom-tooltip {
+  opacity: 0 !important;
+}
+.item:hover {
+  border-radius: 50px;
+  box-shadow: 0 0 23px rgba(0, 13, 126, 0.603);
 }
 </style>

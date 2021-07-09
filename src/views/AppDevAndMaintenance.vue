@@ -116,12 +116,12 @@
 </template>
 
 <script>
-import costAccountingCard from "../components/costAccountingCard";
+import CostAccountingCard from "../components/CostAccountingCard.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
 
 export default {
   name: "AppDevAndMaintanance",
-  components: { costAccountingCard, ConfirmationDialog },
+  components: { CostAccountingCard, ConfirmationDialog },
   data() {
     return {
       confirmChangesDialog: false,

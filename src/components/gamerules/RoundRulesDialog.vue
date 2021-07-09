@@ -1,5 +1,5 @@
 <template>
-    <v-dialog width="80%" height="80%" v-model="dialog" @click:outside="closeDialog">
+    <v-dialog width="80%" height="80%" v-model="dialog" @click:outside="closeDialog" :persistent="!roundRulesCanbeClosed">
             <v-card id="roundRulesCard">
     
             <v-card-title
@@ -26,8 +26,11 @@
 
             <v-card-actions>
                 <v-spacer />
-                <v-btn :color="teamColor" @click="closeDialog" dark>
-                Close
+                <v-btn v-if="this.roundRulesCanbeClosed" color="red" @click="closeDialog" dark text>
+                  Close
+                </v-btn>
+                <v-btn v-else @click="closeDialog" disabled>
+                  You can close rules in {{this.timerCount}} seconds
                 </v-btn>
           </v-card-actions>
         </v-card>
@@ -38,6 +41,7 @@
 export default {
   data() {
     return {
+      timerCount: 5,
       rules: {
        round1Rules:
           "The first round is an introductory round. IoT bikes are an innovation and they are not very popular yet. The current demand on the whole market is 1.000 bikes. For now, only standard bikes are available, which consist of a frame and ten sensors. In this round, the following important decisions can be made:",
@@ -78,6 +82,9 @@ export default {
     };
   },
   computed: {
+    roundRulesCanbeClosed() {
+      return this.$store.state.roundRulesRead || this.timerCount === 0;
+    },
     findRoundRules() {
       switch (this.round) {
         case 1:
@@ -121,7 +128,23 @@ export default {
   },
   methods: {
       closeDialog() {
-        this.$emit('closeRules');
+        if(this.timerCount === 0 || this.$store.state.roundRulesRead) {
+          this.$emit('closeRules');
+          this.$store.state.roundRulesRead = true;
+        }
+      }
+  },
+  watch: {
+    timerCount: {
+        handler(value) {
+            if (value > 0) {
+                setTimeout( 
+                    () => {this.timerCount--;}, 
+                    1000 
+                );
+            }
+        },
+        immediate: true // This ensures the watcher is triggered upon creation
       }
   }
 };
