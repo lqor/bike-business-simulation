@@ -217,7 +217,7 @@ export default {
     },
     updateProgress() {
       this.$emit("updateProgress", "qualityAssurance", 100);
-      this.$router.push({ path: "/dashboard" });
+      //this.$router.push({ path: "/dashboard" });
       this.toggleDialog();
     },
     calculateCosts(selectedQAType) {

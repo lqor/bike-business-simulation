@@ -312,7 +312,7 @@ export default {
   },
   methods: {
     saveChanges() {
-      
+
     },
     toggleDialog() {
       if(this.$store.state.purchasingStep >= 5){
@@ -322,13 +322,11 @@ export default {
     toNextStep() {
       if(this.$store.state.purchasingStep >= 5) {
         this.$router.push({ path: "/logistics" });
-        this.$store.state.currentPath = "/logistics";
       }
     },
     updateProgress() {
       this.$emit("updateProgress", "purchasing", 100);
       //this.$router.push({ path: "/dashboard" });
-      //this.$store.state.currentPath = "/dashboard";
       this.toggleDialog();
     },
     calculateCostPerMaterial(selectedVendor) {

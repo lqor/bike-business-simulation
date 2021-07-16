@@ -315,7 +315,6 @@ export default {
     redirectToDashboard() {
       console.log("redirect to Dashboard");
       this.$router.push({ path: "/dashboard" });
-      this.$store.state.currentPath = "/dashboard";
     },
     toggleMenuVisability() {
       this.showMenu = !this.showMenu;
@@ -379,14 +378,15 @@ export default {
   created() {
     // Navigate to main path when app is started
     if (this.$route.path !== "/") {
-      this.$router.push(this.$store.state.currentPath);
+      // this.$router.push({ path: "/dashboard" });  
+      this.$router.push({ path: this.$route.path });    
     }
   },
   mounted() {    
     console.log("mounted");
     this.newRoundRules();
      axios.get(
-        "http://s06lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_ITBL_WS2020_SRV/"
+        "http://z40lp1.ucc.in.tum.de:8000//sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"
       ).then((response) => (this.info = response));
 
     console.log(this.info);

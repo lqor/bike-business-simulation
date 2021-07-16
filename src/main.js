@@ -24,8 +24,7 @@ const store = new Vuex.Store({
     bikeStep: 1,
     salesStep: 1,
     innerGuideDone: false,
-    blockGame: false,
-    currentPath: '/'
+    blockGame: false
   }
 });
 

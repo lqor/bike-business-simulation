@@ -227,7 +227,7 @@ export default {
       // Todo: send data (as oData) to Backend
       console.log("redirect to Dashboard");
       this.$emit("updateProgress", "sales", 100);
-      this.$router.push({ path: "/dashboard" });
+      //this.$router.push({ path: "/dashboard" });
       this.toggleDialog();
     },
     calculateCosts(selectedSalesActivities) {

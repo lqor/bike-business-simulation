@@ -55,7 +55,6 @@ export default {
         navigateToItem(itemId) {
             this.closeDialog();
             this.$router.push({ path: "/" + itemId });
-            this.$store.state.currentPath = "/" + itemId;
         },
         calculateStyle(itemValue) {
             const normalItemStyle = 'color: ' + this.teamColor + '; font-weight: 600;';

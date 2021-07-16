@@ -33,8 +33,6 @@ export default {
   methods: {
     accept() {
       this.$emit("updateProgress", this.$route.name, 100);
-      this.$router.push({ path: "/dashboard" });
-      this.$store.state.currentPath = "/dashboard";
     },
     closeDialog() {
       this.$emit("closeDialog");
