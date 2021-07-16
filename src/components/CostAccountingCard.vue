@@ -1,47 +1,71 @@
 <template>
-  <!-- Cost Accounting Card -->
-  <v-card rounded id="cost-accounting-card">
-    <v-card-title :style="'background-color:' + this.$store.state.color +'!important'" style="color: white">Cost Accounting</v-card-title>
-    <v-card-text>
-      <br>
-      <p>Budget (EUR): {{ budget }}</p>
-      <p>Running costs (EUR): {{ runningCosts }}</p>
-      <p>Avg. Prod. Cost per Bike (EUR): {{ avgProdCostBike }}</p>
-      <p>Estimated Quality: {{ estimatedQual }}</p>
-      <p>Max. Production Capacity (PC): {{ maxProdCapac }}</p>
-      <p>Overall Demand (PC): {{ overDemand }}</p>
-    </v-card-text>
+  <div>
+    <v-card rounded id="cost-accounting-card">
+    <v-card-title 
+      :style="'background-color:' + this.$store.state.color +'!important'" 
+      style="color: white"
+    >Cost accounting</v-card-title>
+    <v-simple-table>
+    <template v-slot:default>
+      <tbody>
+        <tr
+          v-for="item in items"
+          :key="item.name"
+        >
+          <td>{{ item.name }}</td>
+          <td>{{ item.value }}</td>
+          <td class="text-right"><v-icon @click="toggleShowDialog(); setItemValue(item.desc);">mdi-help</v-icon></td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
   </v-card>
+  <cost-accounting-dialog 
+    v-if="showDialog" 
+    @closeDialog="toggleShowDialog" 
+    :itemDescription="this.currentItemValue"
+  ></cost-accounting-dialog>
+  </div>
+
 </template>
 
 <script>
+import CostAccountingDialog from '../dialogs/CostAccountingDialog.vue';
+
 export default {
   name: "cost-accounting-card",
-  props: {
-    budget: {
-      type: Number,
-      default: 0,
+  components: {CostAccountingDialog},
+  data() {
+   return {
+      showDialog: false,
+      currentItemValue: '',
+      expanded: [],
+      items: [
+        {name: 'Budget', value: 10.0, desc: 'Budget'},
+        {name: 'Running costs', value: 222.3, desc: 'Running costs'},
+        {name: 'Average production cost per bike', value: 'Incomplete', desc: 'Average production cost per bike'},
+        {name: 'Estimated quality', value: 21.29, desc: 'Estimated quality'},
+        {name: 'Maximum production capabilitz', value: 'Incomplete', desc: 'Maximum production capabilitz'},
+        {name: 'Over demand', value: 40000, desc: 'Over demand'},
+      ]
+   }
+  },
+  methods: {
+    toggleShowDialog() {
+      this.showDialog = !this.showDialog;
     },
-    runningCosts: {
-      type: Number,
-      default: 0,
-    },
-    avgProdCostBike: {
-      type: String,
-      default: "",
-    },
-    estimatedQual: {
-      type: Number,
-      default: 0,
-    },
-    maxProdCapac: {
-      type: String,
-      default: "",
-    },
-    overDemand: {
-      type: Number,
-      default: 0,
-    },
+    setItemValue(value) {
+      this.currentItemValue = value;
+    }
   }
 };
 </script>
+
+<style>
+.v-data-table td {
+  font-size: 14pt !important;
+}
+.v-data-table th {
+  font-size: 14pt !important;
+}
+</style>

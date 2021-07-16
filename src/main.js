@@ -18,6 +18,13 @@ const store = new Vuex.Store({
     roundRulesRead: false,
     dashboardStep: 1,
     purchasingStep: 1,
+    logisticStep: 1,
+    frameStep: 1,
+    sensorStep: 1,
+    bikeStep: 1,
+    salesStep: 1,
+    innerGuideDone: false,
+    blockGame: false,
     currentPath: '/'
   }
 });

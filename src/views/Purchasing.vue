@@ -60,7 +60,7 @@
     <v-row v-if="this.$store.state.purchasingStep <= 4" class="pa-2" style="margin-top: 20px; margin-bottom: 40px;">
       <v-col align="left" cols="9">
         <div>
-          <h2>{{ this.stepText }}</h2>
+          <h2>{{ this.stepText}}</h2>
         </div>
       </v-col>
       <v-col align="right">
@@ -68,12 +68,11 @@
           <b>I understand</b>
         </v-btn>
       </v-col>
-      
     </v-row>
 
     <!-- Managing purchaising process -->
-    <div ref="logic">
-      <v-row style="margin-top: 10px;">
+    <div ref="logic" style="margin: 1px;">
+      <v-row style="margin-top: 15px; margin-left: 3px">
         <h2 style="text-align: left;">Manage purchaising process</h2>
       </v-row>
 
@@ -403,21 +402,21 @@ export default {
     },
     setOpacity(name, value) {
       this.$refs[name].style.opacity = value;
-    },
-    preventNav(event) {
-      console.log(event);
-      if (window.confirm("Leave without saving?")) {
-        return;
-      }
     }
   },
-  beforeMount() {
-    window.addEventListener("beforeunload", this.preventNav)
-    this.$once("hook:beforeDestroy", () => {
-      window.removeEventListener("beforeunload", this.preventNav);
-    })
-  },
   mounted() {
+    this.$store.state.innerGuideDone = 
+               this.$store.state.purchasingStep >= 5 || 
+               this.$store.state.logisticStep >= 5 || 
+               this.$store.state.frameStep >= 5 || 
+               this.$store.state.sensorStep >= 5 || 
+               this.$store.state.bikeStep >= 5 || 
+               this.$store.state.salesStep >= 5;
+
+    if(this.$store.state.innerGuideDone) {
+      this.$store.state.purchasingStep = 5;
+    }
+
     if(this.$store.state.purchasingStep <= 4) {
       this.nextPurchasingStep();
     }  

@@ -7,8 +7,8 @@
 
               <v-card-text>
                 <br />
-                <p>Do you really want to end the current round?</p>
-                <p>
+                <p class="text-font"> Do you really want to end the current round?</p>
+                <p class="text-font">
                   You won't be able to make any changes until the next round has
                   started!
                 </p>
@@ -51,3 +51,10 @@ export default {
     }
 }
 </script>
+
+
+<style scoped>
+.text-font {
+  font-size: 14pt;
+}
+</style>

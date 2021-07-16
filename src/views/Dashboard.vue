@@ -1,5 +1,15 @@
 <template>
   <v-container id="dashboard">
+    <v-row v-if="this.$store.state.blockGame">
+      <v-col align="center">
+        <div>
+          <h1>
+            <span style="color: green">Game is blocked. Wait until administrator finishes round.</span> 
+          </h1>
+        </div>
+      </v-col>
+    </v-row>
+
     <!-- Linear Progress-Bar -->
     <div ref="round-items">
       <v-row class="pa-6 text-left" ref="progress-bar">
@@ -27,7 +37,7 @@
                 :rotate="-90"
                 :size="100"
                 :value="element.value"
-                @click="$router.push(element.id)"
+                @click="navigateToElement(element.id)"
                 style="cursor: pointer;"
                 :class="calculateClass(element)"
                 class="item"
@@ -47,7 +57,9 @@
     <v-row v-if="this.$store.state.dashboardStep <= 4" ref="guide-btn" class="pa-2">
       <v-col align="left" cols="9">
         <div>
-          <h2>{{ this.stepText }}</h2>
+          <h2>
+            {{ this.stepText }}<span v-if="this.$store.state.dashboardStep <= 2" style="color: green"> Next step is always highlighted green.</span> 
+          </h2>
         </div>
       </v-col>
       <v-col align="right">
@@ -60,15 +72,7 @@
     <!-- Cards -->
     <v-row class="pa-6 text-left" ref="cards">
       <v-col>
-        <cost-accounting-card 
-          style="height:100%"
-          :budget="10.0"
-          :runningCosts="222.222"
-          :avgProdCostBike="'Incomplete'"
-          :estimatedQual="21.29"
-          :maxProdCapac="'Incomplete'"
-          :overDemand="40000.0"
-        />
+        <cost-accounting-card style="height:100%"/>
       </v-col>
     </v-row>
 
@@ -160,6 +164,11 @@ export default {
     },
     setOpacity(name, value) {
       this.$refs[name].style.opacity = value;
+    },
+    navigateToElement(elementId) {
+      if(this.$store.state.dashboardStep >= 5 && !this.$store.state.blockGame) {
+        this.$router.push(elementId);
+      }
     }
   },
   computed: {

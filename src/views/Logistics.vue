@@ -1,7 +1,7 @@
 <template>
   <v-container id="logistics">
     <!-- Statistic about current and previous round -->
-    <v-row>
+    <v-row ref="round-data">
       <v-col>
         <!-- Previous Round Status -->
         <v-card style="height:100%">
@@ -45,39 +45,53 @@
     </v-row>
 
     <v-divider />
+    <v-row v-if="this.$store.state.logisticStep <= 4" class="pa-2" style="margin-top: 20px; margin-bottom: 40px;">
+      <v-col align="left" cols="9">
+        <div>
+          <h2>{{ this.stepText }}</h2>
+        </div>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="nextPurchasingStep" dark rounded link :color="teamColor">
+          <b>I understand</b>
+        </v-btn>
+      </v-col>
+    </v-row>
 
     <!-- Managing logistic process -->
-    <v-row style="margin-top: 10px;">
-      <h2 style="text-align: left;">Manage logistic process</h2>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-select
-          v-model="selectedCompany"
-          :items="transportCompanies"
-          :color="teamColor"
-          label="Choose transportation company..."
-          item-text="name"
-        />
-      </v-col>
+    <div ref="logic" style="margin: 1px;">
+      <v-row style="margin-top: 15px; margin-left: 3px">
+        <h2 style="text-align: left;">Manage logistic process</h2>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="selectedCompany"
+            :items="transportCompanies"
+            :color="teamColor"
+            label="Choose transportation company..."
+            item-text="name"
+          />
+        </v-col>
 
-      <v-col>
-        <v-text-field
-          v-model="selectedCompany[0]"
-          label="Delivery costs (EUR)"
-          filled
-          disabled
-        />
-        <v-text-field
-          v-model="selectedCompany[1]"
-          label="Quality of delivery (%)"
-          filled
-          disabled
-        />
-      </v-col>
-    </v-row>
+        <v-col>
+          <v-text-field
+            v-model="selectedCompany[0]"
+            label="Delivery costs (EUR)"
+            filled
+            disabled
+          />
+          <v-text-field
+            v-model="selectedCompany[1]"
+            label="Quality of delivery (%)"
+            filled
+            disabled
+          />
+        </v-col>
+      </v-row>
+    </div>
 
-    <v-row>
+    <v-row ref="navigation">
         <v-col md='4' align="left">
           <v-btn :color="teamColor" rounded dark @click="toPreviousStep">
             <v-icon left>mdi-arrow-left-bold-circle-outline</v-icon>
@@ -117,6 +131,7 @@ export default {
   components: { CostAccountingCard, ConfirmationDialog },
   data() {
     return {
+      stepText: '',
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       transportCompanies: [
@@ -165,7 +180,9 @@ export default {
       return this.selectedCompany.quality;
     },
     toggleDialog() {
-      this.confirmChangesDialog = !this.confirmChangesDialog;
+      if(this.$store.state.logisticStep >= 5){
+        this.confirmChangesDialog = !this.confirmChangesDialog;
+      }
     },
     updateProgress() {
       this.$emit("updateProgress", "logistics", 100);
@@ -173,12 +190,91 @@ export default {
       this.toggleDialog();
     },
     toNextStep() {
-      this.$router.push({ path: "/framePreparation" });
+      if(this.$store.state.logisticStep >= 5) {
+        this.$router.push({ path: "/framePreparation" });
+      }
     },
     toPreviousStep() {
-       this.$router.push({ path: "/purchasing" });
-    }
+       if(this.$store.state.logisticStep >= 5) {
+        this.$router.push({ path: "/purchasing" });
+       }
+    },
+    nextPurchasingStep() {
+       if(this.$store.state.logisticStep === 1) {
+        this.dataStep();
+      } else if(this.$store.state.logisticStep === 2) {
+        this.logicStep();
+      } else if(this.$store.state.logisticStep === 3) {
+        this.navigationStep();
+      } else {
+        this.unlockStep();
+      }
+
+      this.$store.state.logisticStep++;
+    },
+    dataStep() {
+      this.stepText = 'In these tables you can find useful information to previous and current round. Left is previous round and right is current';
+
+      this.$emit('toggleMenuVisability');
+
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 0.3);
+      this.setOpacity("navigation", 0.3);
+
+      this.setBorder("round-data");
+    },
+    logicStep() {
+      this.stepText = 'Choose here your logistic partner here. Compare different metrics and decide what partner do you want to have!'
+
+      this.setOpacity("logic", 1);
+      this.setOpacity("round-data", 0.3);
+
+      this.setBorder("logic");
+      this.resetBorder("round-data");
+    },
+    navigationStep() {
+      this.stepText = 'You can also navigate through different steps. Do not forget that the steps may differ depending on the round'
+
+      this.setOpacity("navigation", 1);
+      this.setOpacity("logic", 0.3);
+
+      this.setBorder("navigation");
+      this.resetBorder("logic");
+    },
+    unlockStep() {
+      this.resetBorder("navigation");
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 1);
+
+      this.$emit('toggleMenuVisability');
+    },
+    setBorder(name) {
+      this.$refs[name].style.border = '5px solid red';
+      this.$refs[name].style.borderRadius = '20px';
+    },
+    resetBorder(name) {
+      this.$refs[name].style.border = '0px';
+    },
+    setOpacity(name, value) {
+      this.$refs[name].style.opacity = value;
+    },
   },
-  props: {},
+  mounted() {
+    this.$store.state.innerGuideDone = 
+               this.$store.state.purchasingStep >= 5 || 
+               this.$store.state.logisticStep >= 5 || 
+               this.$store.state.frameStep >= 5 || 
+               this.$store.state.sensorStep >= 5 || 
+               this.$store.state.bikeStep >= 5 || 
+               this.$store.state.salesStep >= 5;
+
+    if(this.$store.state.innerGuideDone) {
+      this.$store.state.logisticStep = 5;
+    }
+
+    if(this.$store.state.logisticStep <= 4) {
+      this.nextPurchasingStep();
+    }  
+  },
 };
 </script>

@@ -54,14 +54,6 @@ export default {
     return {
       teamColor: this.$store.state.color
     }
-  },
-  methods: {
-    getElementByid() {
-      // this.$refs.myid.style.opacity = 0.5;
-    }
-  },
-  mounted() {
-    this.getElementByid();
   }
 }
 </script>

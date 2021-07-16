@@ -307,6 +307,10 @@ export default {
       } else {
         this.roundUpdate(++this.$store.state.round);
       }
+
+      // this 2 line are needed to block the game and wait until admin starts a new one.
+      // this.showMenu = false;
+      // this.$store.state.blockGame = true;
     },
     redirectToDashboard() {
       console.log("redirect to Dashboard");
@@ -381,13 +385,11 @@ export default {
   mounted() {    
     console.log("mounted");
     this.newRoundRules();
-    // axios
-    //   .get(
-    //     "http://s06lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_ITBL_WS2020_SRV/"
-    //   )
-    //   .then((response) => (this.info = response));
+    // axios.get(
+    //    "http://s06lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_ITBL_WS2020_SRV/"
+    //  ).then((response) => (this.info = response));
 
-    // console.log(this.info);
+    //console.log(this.info);
   },
 };
 </script>

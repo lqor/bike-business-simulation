@@ -1,19 +1,16 @@
 <template>
-  <v-container id="confirmation-dialog">
+  <v-container id="cost-accounting-dialog">
     <v-dialog v-model="dialog" persistant width="30%" @click:outside="closeDialog">
       <v-card>
         <v-card-text class="text-size">
           <br />
-          Are you sure you want to confirm changes?
+          {{itemDescription}}
         </v-card-text>
         <v-divider />
         <v-card-actions>
           <v-spacer />
           <v-btn color="red" text @click="closeDialog">
-            <b>Decline</b>
-          </v-btn>
-          <v-btn :color="teamColor" text @click="accept">
-            <b>Accept</b>
+            <b>Close</b>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -23,7 +20,8 @@
 
 <script>
 export default {
-  name: "confirmation-dialog",
+  name: "cost-accounting-dialog",
+  props: ['itemDescription'],
   data() {
     return {
       dialog: true,
@@ -31,11 +29,6 @@ export default {
     };
   },
   methods: {
-    accept() {
-      this.$emit("updateProgress", this.$route.name, 100);
-      this.$router.push({ path: "/dashboard" });
-      this.$store.state.currentPath = "/dashboard";
-    },
     closeDialog() {
       this.$emit("closeDialog");
     }
@@ -43,9 +36,8 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .text-size {
-   font-size: 14pt !important;
- }
+    font-size: 14pt !important;
+}
 </style>

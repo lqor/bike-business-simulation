@@ -1,35 +1,51 @@
 <template>
   <v-container id="sales">
     <!-- custom component with statistic about current, previous round and cost accounting -->
-    <prev-cur-round-stats
-      :prevAsmLine="'SmartLine'"
-      :prevAsmLineCost="0.0"
-      :prevNumOfAsmLines="0"
-      :prevProdCosts="0.0"
-      :prevProdCapac="0.0"
-      :prevQuality="0.0"
-      :prevWorkload="0.0"
-      :prevSafety="0.0"
-      :curAsmLine="'SmartLine'"
-      :curAsmLineCost="0.0"
-      :curNumOfAsmLines="0"
-      :curProdCosts="0.0"
-      :curProdCapac="0.0"
-      :curQuality="0.0"
-      :curWorkload="0.0"
-      :curSafety="0.0"
-      :budget="150000.0"
-      :runningCosts="0.0"
-      :avgProdCostBike="'Incomplete'"
-      :estimatedQual="0.0"
-      :maxProdCapac="'Incomplete'"
-      :overDemand="40000.0"
-      style="height: 500px;"
-    />
+    <div ref="round-data">
+      <prev-cur-round-stats
+        :prevAsmLine="'SmartLine'"
+        :prevAsmLineCost="0.0"
+        :prevNumOfAsmLines="0"
+        :prevProdCosts="0.0"
+        :prevProdCapac="0.0"
+        :prevQuality="0.0"
+        :prevWorkload="0.0"
+        :prevSafety="0.0"
+        :curAsmLine="'SmartLine'"
+        :curAsmLineCost="0.0"
+        :curNumOfAsmLines="0"
+        :curProdCosts="0.0"
+        :curProdCapac="0.0"
+        :curQuality="0.0"
+        :curWorkload="0.0"
+        :curSafety="0.0"
+        :budget="150000.0"
+        :runningCosts="0.0"
+        :avgProdCostBike="'Incomplete'"
+        :estimatedQual="0.0"
+        :maxProdCapac="'Incomplete'"
+        :overDemand="40000.0"
+        style="height: 500px;"
+      />
+    </div>
 
     <v-divider />
 
+    <v-row v-if="this.$store.state.salesStep <= 4" class="pa-2" style="margin-top: 20px; margin-bottom: 40px;">
+      <v-col align="left" cols="9">
+        <div>
+          <h2>{{ this.stepText }}</h2>
+        </div>
+      </v-col>
+      <v-col align="right">
+        <v-btn @click="nextPurchasingStep" dark rounded link :color="teamColor">
+          <b>I understand</b>
+        </v-btn>
+      </v-col>
+    </v-row>
+
     <!-- Managing sales process -->
+    <div ref="logic" style="margin: 1px;">
     <v-tabs v-model="salesTabs" :color="teamColor" centered>
       <v-tab>
         Manage Sales Activities
@@ -134,8 +150,9 @@
         </v-row>
       </v-tab-item>
     </v-tabs-items>
+    </div>
 
-    <v-row>
+    <v-row ref="navigation">
         <v-col md='4' align="left">
           <v-btn :color="teamColor" rounded dark @click="toPreviousStep">
             <v-icon left>mdi-arrow-left-bold-circle-outline</v-icon>
@@ -174,6 +191,7 @@ export default {
   components: { prevCurRoundStats, ConfirmationDialog },
   data() {
     return {
+      stepText: '',
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
       salesTabs: null,
@@ -198,9 +216,12 @@ export default {
       premiumPrice: 0.0,
     };
   },
+  
   methods: {
     toggleDialog() {
-      this.confirmChangesDialog = !this.confirmChangesDialog;
+       if(this.$store.state.salesStep >= 5){
+         this.confirmChangesDialog = !this.confirmChangesDialog;
+       }
     },
     updateProgress() {
       // Todo: send data (as oData) to Backend
@@ -218,14 +239,90 @@ export default {
       }
     },
     toPreviousStep() {
-      if(this.$store.state.round === 1) {
-        this.$router.push({ path: "/bikeConstruction" });
-      } else {
-        this.$router.push({ path: "/qualityAssurance" }); 
+      if(this.$store.state.salesStep >= 5){
+        if(this.$store.state.round === 1) {
+          this.$router.push({ path: "/bikeConstruction" });
+        } else {
+          this.$router.push({ path: "/qualityAssurance" }); 
+        }
       }
-       
-    }
+    },
+    nextPurchasingStep() {
+       if(this.$store.state.salesStep === 1) {
+        this.dataStep();
+      } else if(this.$store.state.salesStep === 2) {
+        this.logicStep();
+      } else if(this.$store.state.salesStep === 3) {
+        this.navigationStep();
+      } else {
+        this.unlockStep();
+      }
+
+      this.$store.state.salesStep++;
+    },
+    dataStep() {
+      this.stepText = 'In these tables you can find useful information to previous and current round. Left is previous round and right is current';
+
+      this.$emit('toggleMenuVisability');
+
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 0.3);
+      this.setOpacity("navigation", 0.3);
+
+      this.setBorder("round-data");
+    },
+    logicStep() {
+      this.stepText = 'Here you can configure your sales processes!'
+
+      this.setOpacity("logic", 1);
+      this.setOpacity("round-data", 0.3);
+
+      this.setBorder("logic");
+      this.resetBorder("round-data");
+    },
+    navigationStep() {
+      this.stepText = 'You can also navigate through different steps. Do not forget that the steps may differ depending on the round'
+
+      this.setOpacity("navigation", 1);
+      this.setOpacity("logic", 0.3);
+
+      this.setBorder("navigation");
+      this.resetBorder("logic");
+    },
+    unlockStep() {
+      this.resetBorder("navigation");
+      this.setOpacity("round-data", 1);
+      this.setOpacity("logic", 1);
+
+      this.$emit('toggleMenuVisability');
+    },
+    setBorder(name) {
+      this.$refs[name].style.border = '5px solid red';
+      this.$refs[name].style.borderRadius = '20px';
+    },
+    resetBorder(name) {
+      this.$refs[name].style.border = '0px';
+    },
+    setOpacity(name, value) {
+      this.$refs[name].style.opacity = value;
+    },
   },
-  props: {},
+  mounted() {
+    this.$store.state.innerGuideDone = 
+               this.$store.state.purchasingStep >= 5 || 
+               this.$store.state.logisticStep >= 5 || 
+               this.$store.state.frameStep >= 5 || 
+               this.$store.state.sensorStep >= 5 || 
+               this.$store.state.bikeStep >= 5 || 
+               this.$store.state.salesStep >= 5;
+
+    if(this.$store.state.innerGuideDone) {
+      this.$store.state.salesStep = 5;
+    }
+
+    if(this.$store.state.salesStep <= 4) {
+      this.nextPurchasingStep();
+    }  
+  }
 };
 </script>

@@ -14,6 +14,7 @@ import QualityAssurance from './views/QualityAssurance.vue';
 import Sales from './views/Sales.vue';
 import PageNotFound from './views/PageNotFound.vue';
 import ChartsContainer from './components/charts/ChartsContainer.vue';
+import ChatComponent from './components/ChatComponent.vue';
 
 Vue.use(VueRouter);
 
@@ -118,6 +119,14 @@ const routes = [{
         path: '/charts',
         name: 'Charts',
         component: ChartsContainer,
+        meta: {
+            visible: true,
+        }
+    },
+    {
+        path: '/chat',
+        name: 'Chat',
+        component: ChatComponent,
         meta: {
             visible: true,
         }

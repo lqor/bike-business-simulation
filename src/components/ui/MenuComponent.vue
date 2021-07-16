@@ -23,7 +23,7 @@
            <v-list-item-title  class="list-item">Show todo</v-list-item-title>
         </v-list-item>
         
-        <v-list-item @click="toggleChat">
+        <v-list-item :to="chat">
           <v-list-item-icon >
             <v-icon style="color:white">mdi-pencil-circle-outline</v-icon>
           </v-list-item-icon>
@@ -43,7 +43,6 @@
           </v-list-item-icon>
             <v-list-item-title class="list-item">General Rules</v-list-item-title>
         </v-list-item>
-
   </v-navigation-drawer>
 </template>
 
@@ -58,8 +57,6 @@ export default {
       this.$emit('toggleRoundRules');
     },
     toggleGeneralRules() {
-          // console.log(this.$store.state['count']);
-
       this.$emit('toggleGeneralRules');
     },
     toggleChat() {
@@ -72,6 +69,7 @@ export default {
   data() {
     return {
       charts: "/charts",
+      chat: "/chat",
       teamColor: this.$store.state.color
     }
   }
