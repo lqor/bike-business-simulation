@@ -186,7 +186,7 @@ export default {
     },
     updateProgress() {
       this.$emit("updateProgress", "logistics", 100);
-      this.$router.push({ path: "/dashboard" });
+      // this.$router.push({ path: "/dashboard" });
       this.toggleDialog();
     },
     toNextStep() {
