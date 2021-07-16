@@ -106,7 +106,7 @@ import GeneralRules from './components/gamerules/GeneralRules.vue';
 import RoundRulesDialog from './components/gamerules/RoundRulesDialog.vue';
 import TodoDialog from './dialogs/TodoDialog.vue';
 
-//import axios from "axios";
+import axios from "axios";
 export default {
   name: "App",
   components: { GeneralRules, EasterEggDialog, EndRoundDialog, MenuComponent, RoundRulesDialog, TodoDialog },
@@ -385,11 +385,11 @@ export default {
   mounted() {    
     console.log("mounted");
     this.newRoundRules();
-    // axios.get(
-    //    "http://s06lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_ITBL_WS2020_SRV/"
-    //  ).then((response) => (this.info = response));
+     axios.get(
+        "http://s06lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_ITBL_WS2020_SRV/"
+      ).then((response) => (this.info = response));
 
-    //console.log(this.info);
+    console.log(this.info);
   },
 };
 </script>

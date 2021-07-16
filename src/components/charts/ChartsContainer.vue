@@ -39,6 +39,28 @@
         </v-card>
       </v-col>
     </v-row>    
+
+    <v-row class="pa-6 text-left">
+      <v-col>
+        <v-card>
+          <v-card-title :style="'background-color:' + teamColor +'!important'" style="color: white">
+            Employees Satisfication Chart 
+          </v-card-title>
+           <v-select
+            v-model="selectedProcess"
+            :items="processes"
+            :color="teamColor"
+            label="Select process"
+            item-text="name"
+            style="margin: 10px"
+          />
+
+          <br />
+
+          <employees-satisfication-chart />
+        </v-card>
+      </v-col>
+    </v-row>    
   </v-container>
 </template>
 
@@ -47,12 +69,23 @@ import lineChart from "./lineChart.vue";
 import pieChart from "./pieChart.vue";
 import barChart from "./barChart.vue";
 import radarChart from "./radarChart.vue";
+import EmployeesSatisficationChart from './EmployeesSatisficationChart.vue'
 
 export default {
-  components: {lineChart, pieChart, barChart, radarChart},
+  components: {lineChart, pieChart, barChart, radarChart, EmployeesSatisficationChart},
   data() {
     return {
-      teamColor: this.$store.state.color
+      teamColor: this.$store.state.color,
+      selectedProcess: '',
+      processes: [
+        'Battery Preparation', 
+        'Frame Preparation', 
+        'Engine Preparation', 
+        'Sensor Preparation', 
+        'Bike Assembly', 
+        'Application', 
+        'Logistic'
+      ]
     }
   }
 }

@@ -91,7 +91,7 @@
         <v-col align="center" md="4">
           <v-btn :color="teamColor" rounded dark @click="toggleDialog" center>
             <v-icon left>mdi-check-outline</v-icon>
-            Accept changes
+            Save changes
           </v-btn>
         </v-col>
       

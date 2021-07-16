@@ -210,11 +210,11 @@
           <v-btn 
             :color="teamColor" 
             rounded dark
-            @click="toggleDialog" 
+            @click="toggleDialog(); saveChanges();" 
             center
           >
             <v-icon left>mdi-check-outline</v-icon>
-            Accept changes
+            Save changes
           </v-btn>
         </v-col>
       
@@ -311,6 +311,9 @@ export default {
     };
   },
   methods: {
+    saveChanges() {
+      
+    },
     toggleDialog() {
       if(this.$store.state.purchasingStep >= 5){
         this.confirmChangesDialog = !this.confirmChangesDialog;
@@ -324,8 +327,8 @@ export default {
     },
     updateProgress() {
       this.$emit("updateProgress", "purchasing", 100);
-      this.$router.push({ path: "/dashboard" });
-      this.$store.state.currentPath = "/dashboard";
+      //this.$router.push({ path: "/dashboard" });
+      //this.$store.state.currentPath = "/dashboard";
       this.toggleDialog();
     },
     calculateCostPerMaterial(selectedVendor) {
