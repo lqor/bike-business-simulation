@@ -217,18 +217,24 @@
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
+    <error-chages-dialog
+      v-if="showError"
+      @closeError="toggleShowError"
+    ></error-chages-dialog>
   </v-container>
 </template>
 
 <script>
 import prevCurRoundStats from "../components/prevCurRoundStats.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
-  components: { prevCurRoundStats, ConfirmationDialog },
+  components: { prevCurRoundStats, ConfirmationDialog, ErrorChagesDialog },
   name: "frame-preparation",
   data() {
     return {
+      showError: false,
       stepText: '',
       confirmChangesDialog: false,
       selectedLine: "",
@@ -254,8 +260,13 @@ export default {
     };
   },
   methods: {
+    toggleShowError() {
+      this.showError = !this.showError;
+    },
     toggleDialog() {
-      if(this.$store.state.frameStep >= 5){
+      if(this.selectedLine === "") {
+        this.toggleShowError();
+      } else if(this.$store.state.frameStep >= 5){
         this.confirmChangesDialog = !this.confirmChangesDialog;
       }
     },

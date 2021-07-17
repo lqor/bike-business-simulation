@@ -32,14 +32,14 @@
             v-model="selectedProcess"
             :items="processes"
             :color="teamColor"
-            label="Select process"
+            label="Select process to learn more about employee satisfaction"
             item-text="name"
             style="margin: 10px"
           />
 
           <br />
 
-          <employees-satisfaction-details :selectedProcess="selectedProcess" />
+          <employees-satisfaction-details :data="chartData" />
         </v-card>
       </v-col>
     </v-row>   
@@ -107,6 +107,7 @@ export default {
   },
   data() {
     return {
+      chartData: null,
       teamColor: this.$store.state.color,
       selectedProcess: 'Battery Preparation',
       processes: [
@@ -117,8 +118,250 @@ export default {
         'Bike Assembly', 
         'Application & Development', 
         'Logistic'
+      ],
+      set1: [
+        {
+          label: "Employee Satisfaction",
+          data: [100, 95, 100, 90, 80, 80],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [100, 88, 95, 100, 89, 79],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [44, 55, 66, 77, 90, 50],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [90, 77, 35, 100, 50, 10],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set2: [
+        {
+          label: "Employee Satisfaction",
+          data: [44, 55, 66, 77, 90, 50],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [10, 20, 30, 10, 10, 20],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [100, 100, 100, 90, 80, 85],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [13, 44, 11, 78, 23, 51],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set3: [
+        {
+          label: "Employee Satisfaction",
+          data: [41, 51, 66, 77, 90, 58],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [11, 21, 31, 13, 13, 23],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [10, 55, 10, 90, 8, 80],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [14, 44, 13, 79, 25, 51],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set4: [
+        {
+          label: "Employee Satisfaction",
+          data: [11, 22, 33, 44, 55, 66],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [22, 33, 44, 55, 66, 77],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [88,99, 11, 12, 13, 14],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [22, 33, 33, 35, 36, 37],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set5: [
+        {
+          label: "Employee Satisfaction",
+          data: [11, 22, 33, 44, 55, 66],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [22, 33, 44, 55, 66, 77],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [88, 99, 10, 12, 13, 14],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [100, 88, 77, 73, 69, 65],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set6: [
+        {
+          label: "Employee Satisfaction",
+          data: [100, 88, 77, 73, 69, 65],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [100, 78, 97, 63, 71, 65],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [88, 99, 91, 12, 19, 30],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [41, 51, 66, 77, 90, 50],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
+      ],
+      set7: [
+        {
+          label: "Employee Satisfaction",
+          data: [44, 55, 66, 77, 90, 50],
+          backgroundColor: "transparent",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+        },
+        {
+          label: "Quality",
+          data: [12, 14, 15, 90, 80, 80],
+          backgroundColor: "transparent",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+        },
+        {
+          label: "Workload",
+          data: [10, 20, 30, 10, 10, 20],
+          backgroundColor: "transparent",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+        },
+        {
+          label: "Safety",
+          data: [90, 77, 35, 1, 5, 12],
+          backgroundColor: "transparent",
+          borderColor: "#e3a600",
+          pointBackgroundColor: "#e3a600",
+        }
       ]
     }
+  },
+  watch: {
+    selectedProcess: function() {
+      switch(this.selectedProcess) {
+        case 'Battery Preparation':
+          this.chartData = this.set1;
+          break;
+        case 'Frame Preparation':
+          this.chartData = this.set2;
+          break;
+        case 'Engine Preparation':
+          this.chartData = this.set3;
+          break;
+        case 'Sensor Preparation':
+          this.chartData = this.set4;
+          break;
+        case 'Bike Assembly':
+          this.chartData = this.set5;
+          break;
+        case 'Application & Development':
+          this.chartData = this.set6;
+          break;
+        case 'Logistic':
+          this.chartData = this.set7;
+          break;
+        default:
+          this.chartData = this.set1;
+      }
+    }
+  },
+  mounted() {
+    this.chartData = this.set1;
   }
 }
 </script>

@@ -201,6 +201,10 @@
         @closeDialog="toggleDialog"
         @updateProgress="updateProgress"
       ></confirmation-dialog>
+      <error-chages-dialog
+        v-if="showError"
+        @closeError="toggleShowError"
+      ></error-chages-dialog>
     </v-container>
     <v-container v-else>
       <h1>Hey, url-hacker, you have no access to this component yet!!</h1>
@@ -212,12 +216,14 @@
 <script>
 import prevCurRoundStats from "../components/prevCurRoundStats.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
-  components: { prevCurRoundStats, ConfirmationDialog },
+  components: { prevCurRoundStats, ConfirmationDialog, ErrorChagesDialog },
   name: "battery-preparation",
   data() {
     return {
+       showError: false,
       confirmChangesDialog: false,
       selectedLine: "",
       numOfLines: 1,
@@ -243,8 +249,15 @@ export default {
     };
   },
   methods: {
+   toggleShowError() {
+      this.showError = !this.showError;
+    },
     toggleDialog() {
-      this.confirmChangesDialog = !this.confirmChangesDialog;
+      if(this.selectedLine === "") {
+        this.toggleShowError();
+      } else {
+        this.confirmChangesDialog = !this.confirmChangesDialog;
+      }
     },
     updateProgress() {
       this.$emit("updateProgress", "batteryPreparation", 100);

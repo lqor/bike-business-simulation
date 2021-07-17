@@ -216,18 +216,24 @@
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
+    <error-chages-dialog
+      v-if="showError"
+      @closeError="toggleShowError"
+    ></error-chages-dialog>
   </v-container>
 </template>
 
 <script>
 import prevCurRoundStats from "../components/prevCurRoundStats.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
-  components: { prevCurRoundStats, ConfirmationDialog },
+  components: { prevCurRoundStats, ConfirmationDialog, ErrorChagesDialog },
   name: "sensors-preparation",
   data() {
     return {
+      showError: false,
       stepText: '',
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
@@ -253,8 +259,13 @@ export default {
     };
   },
   methods: {
+    toggleShowError() {
+      this.showError = !this.showError;
+    },
     toggleDialog() {
-      if(this.$store.state.sensorStep >= 5){
+      if(this.selectedLine === "") {
+        this.toggleShowError();
+      } else if(this.$store.state.sensorStep >= 5){
         this.confirmChangesDialog = !this.confirmChangesDialog;
       }
     },

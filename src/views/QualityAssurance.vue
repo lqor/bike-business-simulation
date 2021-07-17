@@ -177,6 +177,10 @@
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
+    <error-chages-dialog
+      v-if="showError"
+      @closeError="toggleShowError"
+    ></error-chages-dialog>
     </v-container>
     <v-container v-else>
       <h1>Hey, url-hacker, you have no access to this component yet!!</h1>
@@ -188,11 +192,13 @@
 <script>
 import CostAccountingCard from "../components/CostAccountingCard.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
-  components: { CostAccountingCard, ConfirmationDialog },
+  components: { CostAccountingCard, ConfirmationDialog, ErrorChagesDialog},
   data() {
     return {
+      showError: false,
       teamColor: this.$store.state.color,
       round: this.$store.state.round,
       confirmChangesDialog: false,
@@ -212,8 +218,15 @@ export default {
     };
   },
   methods: {
-     toggleDialog() {
-      this.confirmChangesDialog = !this.confirmChangesDialog;
+    toggleShowError() {
+      this.showError = !this.showError;
+    },
+    toggleDialog() {
+      if(this.selectedQAType === "") {
+        this.toggleShowError();
+      } else {
+        this.confirmChangesDialog = !this.confirmChangesDialog;
+      }
     },
     updateProgress() {
       this.$emit("updateProgress", "qualityAssurance", 100);

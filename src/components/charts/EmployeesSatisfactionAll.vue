@@ -17,14 +17,14 @@ export default {
         datasets: [
           {
             label: "Team 1",
-            data: [10000, 9000, 6000, 9000, -1000, 1200],
+            data: [12, 65, 67, 68, 73, 65],
             backgroundColor: "transparent",
             borderColor: "green",
             pointBackgroundColor: "green",
           },
           {
             label: "Team 2",
-            data: [100, 200, 3500, 4000, -1000, 5000],
+            data: [5, 45, 65, 45, 50, 28],
             backgroundColor: "transparent",
             borderColor: "red",
             pointBackgroundColor: "red",
@@ -38,6 +38,15 @@ export default {
           display: true,
           text: "",
         },
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Score',
+                    
+                }
+            }]
+        } 
       }
     );
   },

@@ -210,7 +210,7 @@
           <v-btn 
             :color="teamColor" 
             rounded dark
-            @click="toggleDialog(); saveChanges();" 
+            @click="toggleDialog" 
             center
           >
             <v-icon left>mdi-check-outline</v-icon>
@@ -231,20 +231,26 @@
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
+    <error-chages-dialog
+      v-if="showError"
+      @closeError="toggleShowError"
+    ></error-chages-dialog>
   </v-container>
 </template>
 
 <script>
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
-  components: { ConfirmationDialog },
+  components: { ConfirmationDialog, ErrorChagesDialog },
   name: "Purchaising",
   data() {
     return {
       isEditing: true,
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
+      showError: false,
       selectedVendor: "",
       stepText: '',
       vendors: [
@@ -311,11 +317,13 @@ export default {
     };
   },
   methods: {
-    saveChanges() {
-
+    toggleShowError() {
+      this.showError = !this.showError;
     },
     toggleDialog() {
-      if(this.$store.state.purchasingStep >= 5){
+      if(this.selectedVendor === "") {
+        this.toggleShowError();
+      } else if(this.$store.state.purchasingStep >= 5){
         this.confirmChangesDialog = !this.confirmChangesDialog;
       }
     },

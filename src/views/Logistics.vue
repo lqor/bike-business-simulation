@@ -119,18 +119,24 @@
       @closeDialog="toggleDialog"
       @updateProgress="updateProgress"
     ></confirmation-dialog>
+    <error-chages-dialog
+      v-if="showError"
+      @closeError="toggleShowError"
+    ></error-chages-dialog>
   </v-container>
 </template>
 
 <script>
 import CostAccountingCard from "../components/CostAccountingCard.vue";
 import ConfirmationDialog from "../dialogs/ConfirmationDialog.vue";
+import ErrorChagesDialog from '../dialogs/ErrorChagesDialog.vue';
 
 export default {
   name: "logistics",
-  components: { CostAccountingCard, ConfirmationDialog },
+  components: { CostAccountingCard, ConfirmationDialog, ErrorChagesDialog },
   data() {
     return {
+      showError: false,
       stepText: '',
       teamColor: this.$store.state.color,
       confirmChangesDialog: false,
@@ -165,11 +171,6 @@ export default {
   },
   methods: {
     getCosts() {
-      console.log(this.selectedCompany);
-      console.log(this.selectedCompany.text);
-      console.log(this.selectedCompany.costs);
-      console.log(this.selectedCompany.quality);
-
       if (!this.selectedCompany) {
         return null;
       } else {
@@ -179,14 +180,18 @@ export default {
     getQuality() {
       return this.selectedCompany.quality;
     },
+    toggleShowError() {
+      this.showError = !this.showError;
+    },
     toggleDialog() {
-      if(this.$store.state.logisticStep >= 5){
+      if(this.selectedCompany === "") {
+        this.toggleShowError();
+      } else if(this.$store.state.logisticStep >= 5){
         this.confirmChangesDialog = !this.confirmChangesDialog;
       }
     },
     updateProgress() {
       this.$emit("updateProgress", "logistics", 100);
-      // this.$router.push({ path: "/dashboard" });
       this.toggleDialog();
     },
     toNextStep() {
