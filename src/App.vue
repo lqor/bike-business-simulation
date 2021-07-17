@@ -277,7 +277,6 @@ export default {
       this.secretDialog = !this.secretDialog;
     },
     roundUpdate(round) {
-      console.log("Round-update");
       this.$store.state.round = round;
       this.clearProgress();
     },
@@ -291,10 +290,8 @@ export default {
       this.$store.state.roundRulesRead = false;
     },
     newRoundRules() {
-      console.log("New Round Rules");
     },
     endRound() {
-      console.log("End of Round #" + this.$store.state.round);
       /*
         Future Work (TODO):
         enable connection with ABAP-server and send
@@ -303,7 +300,6 @@ export default {
       if (this.$store.state.round >= 6) {
         // End Game
         this.roundUpdate(1);
-        console.log("End Game");
       } else {
         this.roundUpdate(++this.$store.state.round);
       }
@@ -313,7 +309,6 @@ export default {
       // this.$store.state.blockGame = true;
     },
     redirectToDashboard() {
-      console.log("redirect to Dashboard");
       this.$router.push({ path: "/dashboard" });
     },
     toggleMenuVisability() {
@@ -383,7 +378,6 @@ export default {
     }
   },
   mounted() {    
-    console.log("mounted");
     this.newRoundRules();
      axios.get(
         "http://z40lp1.ucc.in.tum.de:8000//sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"

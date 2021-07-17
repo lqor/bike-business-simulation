@@ -45,8 +45,6 @@ export default {
         },
         endRound() {
             this.$emit('endRound');
-            console.log('from dialog: ' + this.$store.state.round);
-            // send request to end round
         }
     }
 }
