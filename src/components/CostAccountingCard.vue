@@ -41,12 +41,12 @@ export default {
       currentItemValue: '',
       expanded: [],
       items: [
-        {name: 'Budget', value: 10.0, desc: 'Budget'},
-        {name: 'Running costs', value: 222.3, desc: 'Running costs'},
-        {name: 'Average production cost per bike', value: 'Incomplete', desc: 'Average production cost per bike'},
-        {name: 'Estimated quality', value: 21.29, desc: 'Estimated quality'},
-        {name: 'Maximum production capabilitz', value: 'Incomplete', desc: 'Maximum production capabilitz'},
-        {name: 'Over demand', value: 40000, desc: 'Over demand'},
+        {name: 'Budget', value: 10.0, desc: 'This is your whole budget.'},
+        {name: 'Running costs', value: 222.3, desc: 'Running costs are needed for every day decisions.'},
+        {name: 'Average production cost per bike', value: 'Incomplete', desc: 'This can help you to understand what price do you need to be profitable'},
+        {name: 'Estimated quality', value: 21.29, desc: 'This value influences how many bicycles are broken.'},
+        {name: 'Maximum production capability', value: 'Incomplete', desc: 'You cannot produce not more bikes than this value'},
+        {name: 'Over demand', value: 40000, desc: 'Oversupply is an excessive amount of a product. Oversupply results when demand is lower than supply, resulting in a surplus. Simply put, an oversupply is when there is more product for sale than people are prepared to buy.'},
       ]
    }
   },

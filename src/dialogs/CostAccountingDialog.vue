@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text class="text-size">
           <br />
-          {{itemDescription}}
+          <span class="text-size">{{itemDescription}}</span>
         </v-card-text>
         <v-divider />
         <v-card-actions>
