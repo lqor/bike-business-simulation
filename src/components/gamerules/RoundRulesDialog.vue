@@ -41,7 +41,7 @@
 export default {
   data() {
     return {
-      timerCount: 0,
+      timerCount: 5,
       rules: {
        round1Rules:
           "The first round is an introductory round. IoT bikes are an innovation and they are not very popular yet. The current demand on the whole market is 1.000 bikes. For now, only standard bikes are available, which consist of a frame and ten sensors. In this round, the following important decisions can be made:",

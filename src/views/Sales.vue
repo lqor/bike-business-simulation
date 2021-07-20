@@ -222,7 +222,6 @@ export default {
       premiumPrice: 0.0,
     };
   },
-  
   methods: {
     toggleShowError() {
       this.showError = !this.showError;
