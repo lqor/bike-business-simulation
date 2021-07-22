@@ -259,6 +259,14 @@ export default {
       teamColor: this.$store.state.color
     };
   },
+  watch: {
+    '$store.state.frameStep': function() {
+      if(this.$store.state.frameStep === 0) {
+        this.$store.state.frameStep++;
+        this.nextPurchasingStep();
+      }
+    }
+  },
   methods: {
     toggleShowError() {
       this.showError = !this.showError;

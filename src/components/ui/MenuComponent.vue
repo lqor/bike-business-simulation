@@ -30,18 +30,32 @@
            <v-list-item-title  class="list-item">Write to admin</v-list-item-title>
         </v-list-item>
 
+        <v-list-item @click="panicButton">
+          <v-list-item-icon>
+            <v-icon style="color:white">mdi-fire</v-icon>
+          </v-list-item-icon>
+            <v-list-item-title class="list-item">Panic button</v-list-item-title>
+        </v-list-item>
+
         <v-list-item @click="toggleRoundRules">
           <v-list-item-icon>
-            <v-icon style="color:white">mdi-help-circle-outline</v-icon>
+            <v-icon style="color:white">mdi-clipboard-list</v-icon>
           </v-list-item-icon>
             <v-list-item-title class="list-item">Round Rules</v-list-item-title>
         </v-list-item>
 
         <v-list-item @click="toggleGeneralRules">
           <v-list-item-icon>
-            <v-icon style="color:white">mdi-help-circle</v-icon>
+            <v-icon style="color:white">mdi-format-list-numbered</v-icon>
           </v-list-item-icon>
             <v-list-item-title class="list-item">General Rules</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item @click="showVisualGuide">
+          <v-list-item-icon>
+            <v-icon style="color:white">mdi-transit-connection-variant</v-icon>
+          </v-list-item-icon>
+            <v-list-item-title class="list-item">Show visual guide</v-list-item-title>
         </v-list-item>
   </v-navigation-drawer>
 </template>
@@ -64,6 +78,29 @@ export default {
     },
     endRound() {
       this.$emit('endRound');
+    },
+    panicButton() {
+      this.$emit('togglePanicButton');
+      this.sendNotificationToServer();
+    },
+    showVisualGuide() {
+      const routName = this.$route.name;
+
+      if(routName === 'Dashboard') {
+        this.$store.state.dashboardStep = 0;
+      } else if(routName === 'Purchasing') {
+        this.$store.state.purchasingStep = 0;
+      } else if(routName === 'Logistics') {
+        this.$store.state.logisticStep = 0;
+      } else if(routName === 'FramePreparation') {
+        this.$store.state.frameStep = 0;
+      } else if(routName === 'SensorsPreparation') {
+        this.$store.state.sensorStep = 0;
+      } else if(routName === 'BikeConstruction') {
+        this.$store.state.bikeStep = 0;
+      } else if(routName === 'Sales') {
+        this.$store.state.salesStep = 0;
+      }
     }
   },
   data() {

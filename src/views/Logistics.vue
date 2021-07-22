@@ -281,5 +281,13 @@ export default {
       this.nextPurchasingStep();
     }  
   },
+  watch: {
+    '$store.state.logisticStep': function() {
+      if(this.$store.state.logisticStep === 0) {
+        this.$store.state.logisticStep++;
+        this.nextPurchasingStep();
+      }
+    }
+  },
 };
 </script>

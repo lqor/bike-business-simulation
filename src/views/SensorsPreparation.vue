@@ -381,5 +381,13 @@ export default {
       this.nextPurchasingStep();
     }  
   },
+  watch: {
+    '$store.state.sensorStep': function() {
+      if(this.$store.state.sensorStep === 0) {
+        this.$store.state.sensorStep++;
+        this.nextPurchasingStep();
+      }
+    }
+  },
 };
 </script>

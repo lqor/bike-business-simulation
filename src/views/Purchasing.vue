@@ -430,5 +430,13 @@ export default {
       this.nextPurchasingStep();
     }  
   },
+  watch: {
+    '$store.state.purchasingStep': function() {
+      if(this.$store.state.purchasingStep === 0) {
+        this.$store.state.purchasingStep++;
+        this.nextPurchasingStep();
+      }
+    }
+  },
 };
 </script>

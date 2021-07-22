@@ -387,6 +387,14 @@ export default {
     if(this.$store.state.bikeStep <= 4) {
       this.nextPurchasingStep();
     }  
-  }
+  },
+  watch: {
+    '$store.state.bikeStep': function() {
+      if(this.$store.state.bikeStep === 0) {
+        this.$store.state.bikeStep++;
+        this.nextPurchasingStep();
+      }
+    }
+  },
 };
 </script>

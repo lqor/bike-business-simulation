@@ -10,6 +10,7 @@
         @toggleGeneralRules="toggleGeneralRules"
         @toggleChat="toggleChat"
         @endRound="toggleEndRoundsModal"
+        @togglePanicButton="togglePanicButton"
       ></menu-component>
       
       <!-- Header -->
@@ -93,7 +94,8 @@
         :generalRules="false"
         :headerImage="false"
       ></round-rules-dialog>
-      <todo-dialog  v-if="showTodo" :tasksList="calculatedProgressElements" @closeTodo="toggleShowTodo"></todo-dialog>
+      <todo-dialog v-if="showTodo" :tasksList="calculatedProgressElements" @closeTodo="toggleShowTodo"></todo-dialog>
+      <panic-button v-if="showPanicButton" @togglePanicButton="togglePanicButton"></panic-button>
     </v-main>
   </v-app>
 </template>
@@ -105,11 +107,12 @@ import EndRoundDialog from './dialogs/EndRoundDialog.vue';
 import GeneralRules from './components/gamerules/GeneralRules.vue';
 import RoundRulesDialog from './components/gamerules/RoundRulesDialog.vue';
 import TodoDialog from './dialogs/TodoDialog.vue';
+import PanicButton from './components/PanicButton/PanicButton.vue';
 
 import axios from "axios";
 export default {
   name: "App",
-  components: { GeneralRules, EasterEggDialog, EndRoundDialog, MenuComponent, RoundRulesDialog, TodoDialog },
+  components: { GeneralRules, EasterEggDialog, EndRoundDialog, MenuComponent, RoundRulesDialog, TodoDialog, PanicButton },
   data() {
     return {
       info: null,
@@ -122,6 +125,7 @@ export default {
       showTodo: false,
       secretDialog: false,
       showMenu: true,
+      showPanicButton: false,
       progressElements: [
         {
           id: "purchasing",
@@ -319,6 +323,9 @@ export default {
       } else {
         this.$refs["header"].style.opacity = 0.3;
       }
+    },
+    togglePanicButton() {
+      this.showPanicButton = !this.showPanicButton;
     }
   },
   computed: {
@@ -379,11 +386,9 @@ export default {
   },
   mounted() {    
     this.newRoundRules();
-     axios.get(
-        "http://z40lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"
-      ).then((response) => (this.info = response));
-
-    console.log(this.info);
+    axios.get(
+      "http://z40lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"
+    ).then((response) => (this.info = response));
   },
 };
 </script>

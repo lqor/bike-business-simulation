@@ -97,6 +97,14 @@ export default {
       stepText: ''
     };
   },
+  watch: {
+    '$store.state.dashboardStep': function() {
+      if(this.$store.state.dashboardStep === 0) {
+        this.$store.state.dashboardStep++;
+        this.nextDashboardStep();
+      }
+    }
+  },
   methods: {
     showName(element) {
       return element.requiredRound <= this.$store.state.round;

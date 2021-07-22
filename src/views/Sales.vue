@@ -38,7 +38,7 @@
         </div>
       </v-col>
       <v-col align="right">
-        <v-btn @click="nextPurchasingStep" dark rounded link :color="teamColor">
+        <v-btn @click="nextSalesStep" dark rounded link :color="teamColor">
           <b>I understand</b>
         </v-btn>
       </v-col>
@@ -256,7 +256,7 @@ export default {
         }
       }
     },
-    nextPurchasingStep() {
+    nextSalesStep() {
        if(this.$store.state.salesStep === 1) {
         this.dataStep();
       } else if(this.$store.state.salesStep === 2) {
@@ -330,8 +330,16 @@ export default {
     }
 
     if(this.$store.state.salesStep <= 4) {
-      this.nextPurchasingStep();
+      this.nextSalesStep();
     }  
-  }
+  },
+  watch: {
+    '$store.state.salesStep': function() {
+      if(this.$store.state.salesStep === 0) {
+        this.$store.state.salesStep++;
+        this.nextSalesStep();
+      }
+    }
+  },
 };
 </script>
