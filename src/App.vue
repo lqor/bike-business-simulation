@@ -387,7 +387,7 @@ export default {
   mounted() {    
     this.newRoundRules();
     axios.get(
-      "http://z40lp1.ucc.in.tum.de:8000/sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"
+      "http://z40lp1.informatik.tu-muenchen.de:8000/sap/opu/odata/sap/Z_BIKE_VUE_IHOR_SRV/"
     ).then((response) => (this.info = response));
   },
 };
