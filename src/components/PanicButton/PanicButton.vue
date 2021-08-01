@@ -8,7 +8,7 @@
               <v-card-text>
                 <br />
                 <p v-if="sended" class="text-font-bold">
-                  Message is sended, just close the popup and wait for contact!
+                  Message is sent, just close the popup and wait for contact!
                 </p>
                 <p v-else class="text-font"> Do you really want to send a notification to admin?</p>
               </v-card-text>

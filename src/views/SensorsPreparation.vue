@@ -318,7 +318,7 @@ export default {
       this.$store.state.sensorStep++;
     },
     dataStep() {
-      this.stepText = 'In these tables you can find useful information to previous and current round. Left is previous round and right is current';
+      this.stepText = 'In these tables, you can find useful information to previous and current round. On the left side is the previous round and on the right side is the current round.';
 
       this.$emit('toggleMenuVisability');
 

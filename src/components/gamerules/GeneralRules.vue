@@ -9,8 +9,8 @@
             <v-card-text>
                <div class="rules-text" v-if="this.currentRuleNumber == 0">
                     <div class="text-passage">
-                        <h2>Welcome to business game!</h2>
-                        <h4 :style="'color:' + teamColor">You are now owner of bike manufacturing company (Bike Inc.)</h4>
+                        <h2>Welcome to the business game!</h2>
+                        <h4 :style="'color:' + teamColor">You are now the owner of the bike manufacturing company (Bike Inc.)</h4>
                     </div>
                     <div class="text-passage text-counter">
                         Please read these rules <b>carefully</b> and <b>thoroughly</b>!

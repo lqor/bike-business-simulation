@@ -118,7 +118,7 @@ export default {
     },
     nextDashboardStep() {
       if(this.$store.state.dashboardStep === 1) {
-        this.stepText = 'Here you can see all your steps. Left is the first step and right is the last one. But you can jump between them as you want!';
+        this.stepText = 'Here you can see all your steps. On the left side is the first step and on the right side is the last one. But you can jump between them as you want! The next step is always highlighted green.';
         this.firstStep();
       } else if(this.$store.state.dashboardStep === 2) {
         this.stepText = 'Here you can find useful data about your current financial situation';

@@ -39,14 +39,14 @@ export default {
     return {
         loading: false,
         messages: [
-            {text: 'Hi', name: 'admin', id:"1"}, 
-            {text: 'How are you?', name: 'me', id:"2"}, 
-            {text: 'Passt schon...', name: 'admin', id:"3"}, 
-            {text: 'Same', name: 'me', id:"4"}, 
-            {text: 'You should speak for yourself.', name: 'admin', id:"5"}, 
-            {text: 'I wish I could.', name: 'me', id:"6"}, 
-            {text: 'I just ate a clownfish.', name: 'admin', id:"7"}, 
-            {text: 'I tasted funny', name: 'admin', id:"8"}
+            {text: 'Lorem ipsum dolor sit amet', name: 'admin', id:"1"}, 
+            {text: 'Consectetur adipiscing elit', name: 'me', id:"2"}, 
+            {text: 'Sed do eiusmod tempor incididunt ut', name: 'admin', id:"3"}, 
+            {text: 'Ut enim ad minim veniam :)', name: 'me', id:"4"}, 
+            {text: 'Nemo enim ipsam voluptatem!', name: 'admin', id:"5"}, 
+            {text: 'At vero eos et accusamus et iusto odio dignissimos', name: 'me', id:"6"}, 
+            {text: 'Ex ea commodi consequatur?', name: 'admin', id:"7"}, 
+            {text: 'Itaque earum rerum hic tenetur a sapiente delectus', name: 'admin', id:"8"}
         ],
         message: '',
         teamColor: this.$store.state.color,
